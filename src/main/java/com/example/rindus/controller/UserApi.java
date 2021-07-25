@@ -1,14 +1,12 @@
 package com.example.rindus.controller;
 
-import com.example.rindus.model.User;
+import com.example.rindus.entity.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
+import java.util.List;
 
 @Api(value="users")
 public interface UserApi {
@@ -23,7 +21,7 @@ public interface UserApi {
             @ApiResponse(code = 500, message = "Application failed to process the request")
     })
     @RequestMapping(value="users", method= RequestMethod.GET)
-    ResponseEntity<User> getUsers();
+    ResponseEntity<List<User>> getUsers();
 
     /*@ApiOperation(value = "Check randomly generated DNA sequences", nickname = "testRandomDna", response = String.class)
     @ApiResponses(value = {

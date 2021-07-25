@@ -1,4 +1,4 @@
-package com.example.rindus.model;
+package com.example.rindus.entity;
 
 import lombok.Data;
 

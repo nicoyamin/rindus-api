@@ -1,12 +1,13 @@
 package com.example.rindus.controller;
 
-import com.example.rindus.model.User;
+import com.example.rindus.entity.User;
+import com.example.rindus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class UserController implements UserApi{
@@ -19,22 +20,11 @@ public class UserController implements UserApi{
         this.userService = userService;
     }
 
-    @Override
-    public ResponseEntity<Boolean> isMutant(@Valid HumanRequest request) throws ResourceFormatException {
-
-
-        boolean isMutant = humanService.isMutant(request.getDna());
-
-            return ResponseEntity.ok(isMutant);
-
-
-    }
 
     @Override
-    public ResponseEntity<User> getUsers() {
+    public ResponseEntity <List<User>> getUsers() {
 
-
-
-        return null;
+        java.util.List<User> users = userService.getUsers();
+        return ResponseEntity.ok(users);
     }
 }
