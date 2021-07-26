@@ -1,6 +1,7 @@
 package com.example.rindus.controller;
 
 import com.example.rindus.entity.User;
+import com.example.rindus.model.UserRequest;
 import com.example.rindus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,19 @@ public class UserController implements UserApi{
 
     @Override
     public ResponseEntity <List<User>> getUsers() {
-
-        java.util.List<User> users = userService.getUsers();
+        List<User> users = userService.getUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @Override
+    public ResponseEntity<User> postUser(@Valid UserRequest request) {
+        User createdUser = userService.postUser(request);
+        return ResponseEntity.ok(createdUser);
+    }
+
+    @Override
+    public ResponseEntity<User> putUser(@Valid UserRequest request) {
+        User updatedUSer = userService.putUser(request);
+        return ResponseEntity.ok(updatedUSer);
     }
 }

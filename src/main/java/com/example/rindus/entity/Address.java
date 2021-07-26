@@ -8,6 +8,6 @@ public class Address {
     String street;
     String suite;
     String city;
-    String zipCode;
+    String zipcode;
     Coordinates geo;
 }
