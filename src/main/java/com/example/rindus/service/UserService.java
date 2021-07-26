@@ -57,4 +57,17 @@ public class UserService {
 
         return  response.block();
     }
+
+    public User patchUser(UserRequest request) {
+
+        String userId ="/" + request.getId();
+
+        Mono<User> response = webClient.patch()
+                .uri(ApiConstants.Resources.USERS.resource + userId)
+                .body(Mono.just(request), UserRequest.class)
+                .retrieve()
+                .bodyToMono(User.class);
+
+        return  response.block();
+    }
 }

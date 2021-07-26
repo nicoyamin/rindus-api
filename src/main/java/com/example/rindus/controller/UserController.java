@@ -36,7 +36,14 @@ public class UserController implements UserApi{
 
     @Override
     public ResponseEntity<User> putUser(@Valid UserRequest request) {
-        User updatedUSer = userService.putUser(request);
-        return ResponseEntity.ok(updatedUSer);
+        User updatedUser = userService.putUser(request);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @Override
+    public ResponseEntity<User> patchUser(@Valid UserRequest request) {
+
+        User updatedUser = userService.patchUser(request);
+        return ResponseEntity.ok(updatedUser);
     }
 }
