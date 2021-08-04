@@ -55,3 +55,15 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/extracted-resources/users.json
+/src/main/resources/extracted-resources/users.xml
+/src/main/resources/extracted-resources/posts.json
+/src/main/resources/extracted-resources/posts.xml
+/src/main/resources/extracted-resources/commments.json
+/src/main/resources/extracted-resources/comments.xml
+/src/main/resources/extracted-resources/photos.json
+/src/main/resources/extracted-resources/photos.xml
+/src/main/resources/extracted-resources/albums.json
+/src/main/resources/extracted-resources/albums.xml
+/src/main/resources/extracted-resources/todos.json
+/src/main/resources/extracted-resources/todos.xml
