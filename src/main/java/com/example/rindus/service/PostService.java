@@ -4,6 +4,7 @@ import com.example.rindus.ApiConstants;
 import com.example.rindus.ResourceExtractor;
 import com.example.rindus.entity.Post;
 import com.example.rindus.model.PostRequest;
+import com.example.rindus.repository.PostRepository;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,11 @@ import java.util.List;
 @Service
 public class PostService {
     private final WebClient webClient;
+    private final PostRepository postRepository;
 
-    public PostService(WebClient.Builder webClientBuilder) {
+    public PostService(WebClient.Builder webClientBuilder, PostRepository postRepository) {
         this.webClient = webClientBuilder.baseUrl(ApiConstants.BASE_URL).build();
+        this.postRepository = postRepository;
     }
 
     public List<Post> getPosts(boolean extractJson, boolean extractXml) throws IOException {
