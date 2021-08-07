@@ -28,9 +28,9 @@ public interface PostApi {
     })
     @RequestMapping(value="/posts", method= RequestMethod.GET)
     ResponseEntity<List<Post>> getPosts(@ApiParam(value="Extract data to JSON file")
-                                        @Valid @RequestParam(required=true) boolean extractJson,
+                                        @Valid @RequestParam(required=false) boolean extractJson,
                                         @ApiParam(value="Extract data to XML file")
-                                        @Valid @RequestParam(required=true) boolean extractXml);
+                                        @Valid @RequestParam(required=false) boolean extractXml);
 
     @ApiOperation(value = "Create a new post", nickname = "newPost", response = Post.class)
     @ApiResponses(value = {

@@ -1,0 +1,20 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Album Id</th>
+        <th scope="col">User Id</th>
+        <th scope="col">Title</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let album of albums">
+        <td>{{ album.id }}</td>
+        <td>{{ album.userId }}</td>
+        <td>{{ album.title }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

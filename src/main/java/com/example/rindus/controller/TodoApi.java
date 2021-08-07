@@ -26,9 +26,9 @@ public interface TodoApi {
     })
     @RequestMapping(value="/todos", method= RequestMethod.GET)
     ResponseEntity<List<Todo>> getTodos(@ApiParam(value="Extract data to JSON file")
-                                        @Valid @RequestParam(required=true) boolean extractJson,
+                                        @Valid @RequestParam(required=false) boolean extractJson,
                                         @ApiParam(value="Extract data to XML file")
-                                        @Valid @RequestParam(required=true) boolean extractXml);
+                                        @Valid @RequestParam(required=false) boolean extractXml);
 
     @ApiOperation(value = "Create a new todo", nickname = "postTodo", response = Todo.class)
     @ApiResponses(value = {

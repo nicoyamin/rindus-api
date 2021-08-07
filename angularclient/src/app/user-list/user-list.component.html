@@ -1,0 +1,45 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">User Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">User Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Street</th>
+        <th scope="col">Suite</th>
+        <th scope="col">City</th>
+        <th scope="col">Zip Code</th>
+        <th scope="col">Geo Latitude</th>
+        <th scope="col">Geo Longitude</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Website</th>
+        <th scope="col">Company Name</th>
+        <th scope="col">Company Catchphrase</th>
+        <th scope="col">Company BS</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.address.street }}</td>
+        <td>{{ user.address.suite }}</td>
+        <td>{{ user.address.city }}</td>
+        <td>{{ user.address.zipcode }}</td>
+        <td>{{ user.address.geo.lat }}</td>
+        <td>{{ user.address.geo.lng }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.website }}</td>
+        <td>{{ user.company.name }}</td>
+        <td>{{ user.company.catchphrase }}</td>
+        <td>{{ user.company.bs }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

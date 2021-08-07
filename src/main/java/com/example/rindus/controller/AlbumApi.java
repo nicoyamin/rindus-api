@@ -28,9 +28,9 @@ public interface AlbumApi {
     })
     @RequestMapping(value="/albums", method= RequestMethod.GET)
     ResponseEntity<List<Album>> getAlbums(@ApiParam(value="Extract data to JSON file")
-                                          @Valid @RequestParam(required=true) boolean extractJson,
+                                          @Valid @RequestParam(required=false) boolean extractJson,
                                           @ApiParam(value="Extract data to XML file")
-                                          @Valid @RequestParam(required=true) boolean extractXml);
+                                          @Valid @RequestParam(required=false) boolean extractXml);
 
     @ApiOperation(value = "Create a new album", nickname = "postAlbum", response = Album.class)
     @ApiResponses(value = {

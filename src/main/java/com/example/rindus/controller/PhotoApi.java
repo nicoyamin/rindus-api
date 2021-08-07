@@ -27,9 +27,9 @@ public interface PhotoApi {
     })
     @RequestMapping(value="/photos", method= RequestMethod.GET)
     ResponseEntity<List<Photo>> getPhotos(@ApiParam(value="Extract data to JSON file")
-                                          @Valid @RequestParam(required=true) boolean extractJson,
+                                          @Valid @RequestParam(required=false) boolean extractJson,
                                           @ApiParam(value="Extract data to XML file")
-                                          @Valid @RequestParam(required=true) boolean extractXml);
+                                          @Valid @RequestParam(required=false) boolean extractXml);
 
     @ApiOperation(value = "Create a new Photo", nickname = "postPhoto", response = Photo.class)
     @ApiResponses(value = {
