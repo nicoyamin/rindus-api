@@ -2,6 +2,7 @@ package com.example.rindus.controller;
 
 import com.example.rindus.entity.Comment;
 import com.example.rindus.entity.User;
+import com.example.rindus.exception.ResourceFormatException;
 import com.example.rindus.model.CommentsRequest;
 import com.example.rindus.service.CommentService;
 import com.example.rindus.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.rmi.UnexpectedException;
 import java.util.List;
 
 @RestController
@@ -33,25 +35,25 @@ public class CommentController implements CommentApi {
     }
 
     @Override
-    public ResponseEntity<Comment> postComment(@Valid CommentsRequest request) {
+    public ResponseEntity<Comment> postComment(@Valid CommentsRequest request) throws UnexpectedException, ResourceFormatException {
         Comment createdComment = commentService.postComment(request);
         return ResponseEntity.ok(createdComment);
     }
 
     @Override
-    public ResponseEntity<Comment> putComment(@Valid CommentsRequest request) {
+    public ResponseEntity<Comment> putComment(@Valid CommentsRequest request) throws UnexpectedException, ResourceFormatException {
         Comment updatedComment = commentService.putComment(request);
         return ResponseEntity.ok(updatedComment);
     }
 
     @Override
-    public ResponseEntity<Comment> patchComment(@Valid CommentsRequest request) {
+    public ResponseEntity<Comment> patchComment(@Valid CommentsRequest request) throws UnexpectedException, ResourceFormatException {
         Comment updatedComment = commentService.patchComment(request);
         return ResponseEntity.ok(updatedComment);
     }
 
     @Override
-    public ResponseEntity deleteComment(@Valid int commentId) {
+    public ResponseEntity deleteComment(@Valid int commentId) throws UnexpectedException {
         commentService.deleteComment(commentId);
         return ResponseEntity.ok("Comment with Id " + commentId + " deleted successfully");    }
 }

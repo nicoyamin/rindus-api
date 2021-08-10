@@ -2,6 +2,7 @@ package com.example.rindus.controller;
 
 import com.example.rindus.entity.Album;
 import com.example.rindus.entity.Post;
+import com.example.rindus.exception.ResourceFormatException;
 import com.example.rindus.model.AlbumRequest;
 import com.example.rindus.service.AlbumService;
 import com.example.rindus.service.PostService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.rmi.UnexpectedException;
 import java.util.List;
 
 @RestController
@@ -32,25 +34,25 @@ public class AlbumController implements AlbumApi {
     }
 
     @Override
-    public ResponseEntity<Album> postAlbum(@Valid AlbumRequest request) {
+    public ResponseEntity<Album> postAlbum(@Valid AlbumRequest request) throws UnexpectedException, ResourceFormatException {
         Album createdAlbum = albumService.postAlbum(request);
         return ResponseEntity.ok(createdAlbum);
     }
 
     @Override
-    public ResponseEntity<Album> putAlbum(@Valid AlbumRequest request) {
+    public ResponseEntity<Album> putAlbum(@Valid AlbumRequest request) throws UnexpectedException, ResourceFormatException {
         Album updatedAlbum = albumService.putAlbum(request);
         return ResponseEntity.ok(updatedAlbum);
     }
 
     @Override
-    public ResponseEntity<Album> patchAlbum(@Valid AlbumRequest request) {
+    public ResponseEntity<Album> patchAlbum(@Valid AlbumRequest request) throws UnexpectedException, ResourceFormatException {
         Album updatedAlbum = albumService.patchAlbum(request);
         return ResponseEntity.ok(updatedAlbum);
     }
 
     @Override
-    public ResponseEntity deleteAlbum(@Valid int albumId) {
+    public ResponseEntity deleteAlbum(@Valid int albumId) throws UnexpectedException {
         albumService.deleteAlbum(albumId);
         return ResponseEntity.ok("Post with Id " + albumId + " deleted successfully");    }
 }

@@ -1,6 +1,7 @@
 package com.example.rindus.controller;
 
 import com.example.rindus.entity.User;
+import com.example.rindus.exception.ResourceFormatException;
 import com.example.rindus.model.UserRequest;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.rmi.UnexpectedException;
 import java.util.List;
 
 @Api(value="users")
@@ -42,7 +44,7 @@ public interface UserApi {
     })
     @RequestMapping(value="/users", produces={"application/JSON"}, method= RequestMethod.POST)
     ResponseEntity<User> postUser(@ApiParam(value="Data for new User")
-                                  @Valid @RequestBody(required=true) UserRequest request);
+                                  @Valid @RequestBody(required=true) UserRequest request) throws UnexpectedException, ResourceFormatException;
 
     @ApiOperation(value = "Update user or create if not found", nickname = "putUser", response = User.class)
     @ApiResponses(value = {
@@ -57,7 +59,7 @@ public interface UserApi {
     })
     @RequestMapping(value="/users", produces={"application/JSON"}, method= RequestMethod.PUT)
     ResponseEntity<User> putUser(@ApiParam(value="User Data with updated information")
-                                  @Valid @RequestBody(required=true) UserRequest request);
+                                  @Valid @RequestBody(required=true) UserRequest request) throws UnexpectedException, ResourceFormatException;
 
     @ApiOperation(value = "Patch user", nickname = "patchUser", response = User.class)
     @ApiResponses(value = {
@@ -71,7 +73,7 @@ public interface UserApi {
     })
     @RequestMapping(value="/users", produces={"application/JSON"}, method= RequestMethod.PATCH)
     ResponseEntity<User> patchUser(@ApiParam(value="User Data with updated information")
-                                 @Valid @RequestBody(required=true) UserRequest request);
+                                 @Valid @RequestBody(required=true) UserRequest request) throws UnexpectedException, ResourceFormatException;
 
 
     @ApiOperation(value = "Delete user", nickname = "deleteUser", response = User.class)
@@ -86,5 +88,5 @@ public interface UserApi {
     })
     @RequestMapping(value="/users", produces={"application/JSON"}, method= RequestMethod.DELETE)
     ResponseEntity deleteUser(@ApiParam(value="Id of the user to delete")
-                              @Valid @RequestParam(required=true) int userId);
+                              @Valid @RequestParam(required=true) int userId) throws UnexpectedException;
 }

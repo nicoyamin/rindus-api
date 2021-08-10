@@ -3,18 +3,23 @@ package com.example.rindus.service;
 import com.example.rindus.ApiConstants;
 import com.example.rindus.ResourceExtractor;
 import com.example.rindus.entity.Album;
-import com.example.rindus.entity.Post;
+import com.example.rindus.exception.ResourceFormatException;
 import com.example.rindus.model.AlbumRequest;
-import com.example.rindus.model.PostRequest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.io.IOException;
+import java.rmi.UnexpectedException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.StringJoiner;
 
 @Service
 public class AlbumService {
@@ -27,71 +32,102 @@ public class AlbumService {
 
     public List<Album> getAlbums(boolean extractJson, boolean extractXml) throws IOException {
 
-        Mono<List<Album>> response = webClient.get()
+        WebClient.ResponseSpec response = webClient.get()
                 .uri(ApiConstants.Resources.ALBUMS.resource)
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Album>>() {});
+                .retrieve();
 
-        List<Album> albums = response.block();
+        ApiConstants.checkForException(response.toBodilessEntity().block());
+
+        Mono<List<Album>> albums = response.bodyToMono(new ParameterizedTypeReference<List<Album>>() {});
 
         if(extractJson) {
-            ResourceExtractor.extractToJson(ApiConstants.Resources.ALBUMS.resource, response);
+            ResourceExtractor.extractToJson(ApiConstants.Resources.ALBUMS.resource, albums);
         }
 
         if(extractXml) {
             ResourceExtractor.extractToXml(ApiConstants.Resources.ALBUMS.resource,
-                    response,
+                    albums,
                     ApiConstants.Resources.ALBUMS.tagName);
         }
 
-        return albums;
+        return albums.block();
     }
 
-    public Album postAlbum(AlbumRequest request) {
-        Mono<Album> response = webClient.post()
+    public Album postAlbum(AlbumRequest request) throws UnexpectedException, ResourceFormatException {
+        WebClient.ResponseSpec response  = webClient.post()
                 .uri(ApiConstants.Resources.ALBUMS.resource)
-                .body(Mono.just(request), AlbumRequest.class)
-                .retrieve()
-                .bodyToMono(Album.class);
+                .body(Mono.just(createAlbum(request)), Album.class)
+                .retrieve();
 
-        return  response.block();
+        ApiConstants.checkForException(response.toBodilessEntity().block());
+
+        return response.bodyToMono(Album.class).block();
     }
 
-    public Album putAlbum(AlbumRequest request) {
+    public Album putAlbum(AlbumRequest request) throws UnexpectedException, ResourceFormatException {
 
         String albumId ="/" + request.getId();
 
-        Mono<Album> response = webClient.put()
+        WebClient.ResponseSpec response  = webClient.put()
                 .uri(ApiConstants.Resources.ALBUMS.resource + albumId)
-                .body(Mono.just(request), AlbumRequest.class)
-                .retrieve()
-                .bodyToMono(Album.class);
+                .body(Mono.just(createAlbum(request)), Album.class)
+                .retrieve();
 
-        return  response.block();
+        ApiConstants.checkForException(response.toBodilessEntity().block());
+
+        return response.bodyToMono(Album.class).block();
     }
 
-    public Album patchAlbum(AlbumRequest request) {
-
+    public Album patchAlbum(AlbumRequest request) throws UnexpectedException, ResourceFormatException {
         String albumId ="/" + request.getId();
 
-        Mono<Album> response = webClient.patch()
+        WebClient.ResponseSpec response  = webClient.patch()
                 .uri(ApiConstants.Resources.ALBUMS.resource + albumId)
-                .body(Mono.just(request), AlbumRequest.class)
-                .retrieve()
-                .bodyToMono(Album.class);
+                .body(Mono.just(createAlbum(request)), Album.class)
+                .retrieve();
 
-        return  response.block();
+        ApiConstants.checkForException(response.toBodilessEntity().block());
+
+        return response.bodyToMono(Album.class).block();
     }
 
-    public int deleteAlbum(int albumId) {
+    public int deleteAlbum(int albumId) throws UnexpectedException {
 
         WebClient.ResponseSpec response = webClient.delete()
                 .uri(ApiConstants.Resources.ALBUMS.resource + "/" + albumId)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve();
 
+        ApiConstants.checkForException(response.toBodilessEntity().block());
+
 
         return response.toBodilessEntity().block().getStatusCodeValue();
 
+    }
+
+    private Album createAlbum(AlbumRequest request) throws ResourceFormatException {
+
+        Album newAlbum = new Album();
+
+        newAlbum.setId(request.getId());
+        newAlbum.setUserId(request.getUserId());
+        newAlbum.setTitle(request.getTitle());
+
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+        Set<ConstraintViolation<Album>> constraintViolations = validator.validate(newAlbum);
+
+        if (constraintViolations.size() > 0) {
+            StringJoiner joiner = new StringJoiner(", ","Album is not valid: ", "");
+            Set<String> violationMessages = new HashSet<String>();
+
+            for (ConstraintViolation<Album> constraintViolation : constraintViolations) {
+                joiner.add(constraintViolation.getPropertyPath() +": "+constraintViolation.getMessage());
+            }
+
+            throw new ResourceFormatException(joiner.toString());
+        }
+
+        return newAlbum;
     }
 }

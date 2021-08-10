@@ -2,6 +2,7 @@ package com.example.rindus.controller;
 
 import com.example.rindus.entity.Comment;
 import com.example.rindus.entity.Post;
+import com.example.rindus.exception.ResourceFormatException;
 import com.example.rindus.model.CommentsRequest;
 import com.example.rindus.model.PostRequest;
 import io.swagger.annotations.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.rmi.UnexpectedException;
 import java.util.List;
 
 @Api(value="comments")
@@ -44,7 +46,7 @@ public interface CommentApi {
     })
     @RequestMapping(value="/comments", produces={"application/JSON"}, method= RequestMethod.POST)
     ResponseEntity<Comment> postComment(@ApiParam(value="Data for new Comment")
-                                 @Valid @RequestBody(required=true) CommentsRequest request);
+                                 @Valid @RequestBody(required=true) CommentsRequest request) throws UnexpectedException, ResourceFormatException;
 
     @ApiOperation(value = "Update comment or create if not found", nickname = "putComment", response = Comment.class)
     @ApiResponses(value = {
@@ -59,7 +61,7 @@ public interface CommentApi {
     })
     @RequestMapping(value="/comments", produces={"application/JSON"}, method= RequestMethod.PUT)
     ResponseEntity<Comment> putComment(@ApiParam(value="Comment data with updated information")
-                                 @Valid @RequestBody(required=true) CommentsRequest request);
+                                 @Valid @RequestBody(required=true) CommentsRequest request) throws UnexpectedException, ResourceFormatException;
 
     @ApiOperation(value = "Patch comment", nickname = "patchComment", response = Comment.class)
     @ApiResponses(value = {
@@ -73,7 +75,7 @@ public interface CommentApi {
     })
     @RequestMapping(value="/comments", produces={"application/JSON"}, method= RequestMethod.PATCH)
     ResponseEntity<Comment> patchComment(@ApiParam(value="Comment data with updated information")
-                                   @Valid @RequestBody(required=true) CommentsRequest request);
+                                   @Valid @RequestBody(required=true) CommentsRequest request) throws UnexpectedException, ResourceFormatException;
 
 
     @ApiOperation(value = "Delete comment", nickname = "deleteComment", response = Comment.class)
@@ -88,5 +90,5 @@ public interface CommentApi {
     })
     @RequestMapping(value="/comments", produces={"application/JSON"}, method= RequestMethod.DELETE)
     ResponseEntity deleteComment(@ApiParam(value="Id of the comment to delete")
-                              @Valid @RequestParam(required=true) int commentId);
+                              @Valid @RequestParam(required=true) int commentId) throws UnexpectedException;
 }

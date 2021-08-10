@@ -2,6 +2,7 @@ package com.example.rindus.controller;
 
 import com.example.rindus.entity.Album;
 import com.example.rindus.entity.Comment;
+import com.example.rindus.exception.ResourceFormatException;
 import com.example.rindus.model.AlbumRequest;
 import com.example.rindus.model.CommentsRequest;
 import io.swagger.annotations.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.rmi.UnexpectedException;
 import java.util.List;
 
 @Api(value="albums")
@@ -44,7 +46,7 @@ public interface AlbumApi {
     })
     @RequestMapping(value="/albums", produces={"application/JSON"}, method= RequestMethod.POST)
     ResponseEntity<Album> postAlbum(@ApiParam(value="Data for new album")
-                                        @Valid @RequestBody(required=true) AlbumRequest request);
+                                        @Valid @RequestBody(required=true) AlbumRequest request) throws UnexpectedException, ResourceFormatException;
 
     @ApiOperation(value = "Update album or create if not found", nickname = "putAlbum", response = Album.class)
     @ApiResponses(value = {
@@ -59,7 +61,7 @@ public interface AlbumApi {
     })
     @RequestMapping(value="/albums", produces={"application/JSON"}, method= RequestMethod.PUT)
     ResponseEntity<Album> putAlbum(@ApiParam(value="Album data with updated information")
-                                       @Valid @RequestBody(required=true) AlbumRequest request);
+                                       @Valid @RequestBody(required=true) AlbumRequest request) throws UnexpectedException, ResourceFormatException;
 
     @ApiOperation(value = "Patch album", nickname = "patchAlbum", response = Album.class)
     @ApiResponses(value = {
@@ -73,7 +75,7 @@ public interface AlbumApi {
     })
     @RequestMapping(value="/albums", produces={"application/JSON"}, method= RequestMethod.PATCH)
     ResponseEntity<Album> patchAlbum(@ApiParam(value="Album data with updated information")
-                                         @Valid @RequestBody(required=true) AlbumRequest request);
+                                         @Valid @RequestBody(required=true) AlbumRequest request) throws UnexpectedException, ResourceFormatException;
 
 
     @ApiOperation(value = "Delete album", nickname = "deleteAlbum", response = Album.class)
@@ -88,5 +90,5 @@ public interface AlbumApi {
     })
     @RequestMapping(value="/albums", produces={"application/JSON"}, method= RequestMethod.DELETE)
     ResponseEntity deleteAlbum(@ApiParam(value="Id of the album to delete")
-                                 @Valid @RequestParam(required=true) int albumId);
+                                 @Valid @RequestParam(required=true) int albumId) throws UnexpectedException;
 }

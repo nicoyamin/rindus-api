@@ -2,7 +2,9 @@ package com.example.rindus;
 
 import io.swagger.models.auth.In;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import java.rmi.UnexpectedException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,5 +42,11 @@ public final class ApiConstants {
 
     private ApiConstants() {
 
+    }
+
+    public static final void checkForException(ResponseEntity status) throws UnexpectedException {
+        if(!ACCEPTED_CODES.contains(status.getStatusCodeValue())) {
+            throw new UnexpectedException(status.getBody().toString());
+        }
     }
 }

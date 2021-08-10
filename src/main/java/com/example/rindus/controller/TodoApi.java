@@ -1,6 +1,7 @@
 package com.example.rindus.controller;
 
 import com.example.rindus.entity.Todo;
+import com.example.rindus.exception.ResourceFormatException;
 import com.example.rindus.model.TodoRequest;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.rmi.UnexpectedException;
 import java.util.List;
 
 @Api(value = "todos")
@@ -42,7 +44,7 @@ public interface TodoApi {
     })
     @RequestMapping(value="/todos", produces={"application/JSON"}, method= RequestMethod.POST)
     ResponseEntity<Todo> postTodo(@ApiParam(value="Data for new Todo")
-                                        @Valid @RequestBody(required=true) TodoRequest request);
+                                        @Valid @RequestBody(required=true) TodoRequest request) throws UnexpectedException, ResourceFormatException;
 
     @ApiOperation(value = "Update todo or create if not found", nickname = "putTodo", response = Todo.class)
     @ApiResponses(value = {
@@ -57,7 +59,7 @@ public interface TodoApi {
     })
     @RequestMapping(value="/todos", produces={"application/JSON"}, method= RequestMethod.PUT)
     ResponseEntity<Todo> putTodo(@ApiParam(value="Todo data with updated information")
-                                       @Valid @RequestBody(required=true) TodoRequest request);
+                                       @Valid @RequestBody(required=true) TodoRequest request) throws UnexpectedException, ResourceFormatException;
 
     @ApiOperation(value = "Patch todo", nickname = "patchTodo", response = Todo.class)
     @ApiResponses(value = {
@@ -71,7 +73,7 @@ public interface TodoApi {
     })
     @RequestMapping(value="/todos", produces={"application/JSON"}, method= RequestMethod.PATCH)
     ResponseEntity<Todo> patchTodo(@ApiParam(value="Todo data with updated information")
-                                         @Valid @RequestBody(required=true) TodoRequest request);
+                                         @Valid @RequestBody(required=true) TodoRequest request) throws UnexpectedException, ResourceFormatException;
 
 
     @ApiOperation(value = "Delete todo", nickname = "deleteTodo", response = Todo.class)
@@ -86,5 +88,5 @@ public interface TodoApi {
     })
     @RequestMapping(value="/todos", produces={"application/JSON"}, method= RequestMethod.DELETE)
     ResponseEntity deleteTodo(@ApiParam(value="Id of the todo to delete")
-                                 @Valid @RequestParam(required=true) int todoId);
+                                 @Valid @RequestParam(required=true) int todoId) throws UnexpectedException;
 }

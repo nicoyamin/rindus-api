@@ -43,7 +43,7 @@ public class PhotoService {
                 .uri(ApiConstants.Resources.PHOTOS.resource)
                 .retrieve();
 
-        checkForException(response.toBodilessEntity().block());
+        ApiConstants.checkForException(response.toBodilessEntity().block());
 
         Mono<List<Photo>> photos = response.bodyToMono(new ParameterizedTypeReference<List<Photo>>() {});
 
@@ -66,7 +66,7 @@ public class PhotoService {
                 .body(Mono.just(createPhoto(request)), Photo.class)
                 .retrieve();
 
-        checkForException(response.toBodilessEntity().block());
+        ApiConstants.checkForException(response.toBodilessEntity().block());
 
         return response.bodyToMono(Photo.class).block();
 
@@ -81,7 +81,7 @@ public class PhotoService {
                 .body(Mono.just(createPhoto(request)), Photo.class)
                 .retrieve();
 
-        checkForException(response.toBodilessEntity().block());
+        ApiConstants.checkForException(response.toBodilessEntity().block());
 
         return response.bodyToMono(Photo.class).block();
     }
@@ -95,7 +95,7 @@ public class PhotoService {
                 .body(Mono.just(createPhoto(request)), Photo.class)
                 .retrieve();
 
-        checkForException(response.toBodilessEntity().block());
+        ApiConstants.checkForException(response.toBodilessEntity().block());
 
         return response.bodyToMono(Photo.class).block();
     }
@@ -107,7 +107,7 @@ public class PhotoService {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve();
 
-        checkForException(response.toBodilessEntity().block());
+        ApiConstants.checkForException(response.toBodilessEntity().block());
 
 
         return response.toBodilessEntity().block().getStatusCodeValue();
@@ -142,9 +142,4 @@ public class PhotoService {
         return newPhoto;
     }
 
-    private void checkForException(ResponseEntity status) throws UnexpectedException {
-        if(!ApiConstants.ACCEPTED_CODES.contains(status.getStatusCodeValue())) {
-            throw new UnexpectedException(status.getBody().toString());
-        }
-    }
 }
