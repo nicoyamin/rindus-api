@@ -2,6 +2,7 @@ package com.example.rindus.controller;
 
 import com.example.rindus.entity.Photo;
 import com.example.rindus.entity.Photo;
+import com.example.rindus.exception.ResourceFormatException;
 import com.example.rindus.model.PhotoRequest;
 import com.example.rindus.service.PhotoService;
 import lombok.SneakyThrows;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.rmi.UnexpectedException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 public class PhotoController implements PhotoApi{
 
@@ -33,25 +34,26 @@ public class PhotoController implements PhotoApi{
     }
 
     @Override
+    @SneakyThrows
     public ResponseEntity<Photo> postPhoto(@Valid PhotoRequest request) {
         Photo createdPhoto = photoService.postPhoto(request);
         return ResponseEntity.ok(createdPhoto);
     }
 
     @Override
-    public ResponseEntity<Photo> putPhoto(@Valid PhotoRequest request) {
+    public ResponseEntity<Photo> putPhoto(@Valid PhotoRequest request) throws ResourceFormatException, UnexpectedException {
         Photo updatedPhoto = photoService.putPhoto(request);
         return ResponseEntity.ok(updatedPhoto);
     }
 
     @Override
-    public ResponseEntity<Photo> patchPhoto(@Valid PhotoRequest request) {
+    public ResponseEntity<Photo> patchPhoto(@Valid PhotoRequest request) throws ResourceFormatException, UnexpectedException {
         Photo updatedPhoto = photoService.patchPhoto(request);
         return ResponseEntity.ok(updatedPhoto);
     }
 
     @Override
-    public ResponseEntity deletePhoto(@Valid int photoId) {
+    public ResponseEntity deletePhoto(@Valid int photoId) throws UnexpectedException {
         photoService.deletePhoto(photoId);
         return ResponseEntity.ok("Photo with Id " + photoId + " deleted successfully");
     }

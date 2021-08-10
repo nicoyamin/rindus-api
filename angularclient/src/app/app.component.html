@@ -18,6 +18,11 @@
                 <option *ngFor="let resource of resources" [value]="resource">{{resource}}</option>
               </select>
             </li>
+          </ul>
+          <ul class="text-center list-inline py-3">
+            <li class="list-inline-item">
+              <h3 class="text-center text-white">Add query parameters: </h3>
+            </li>
             <li class="list-inline-item">
               <a routerLink="/posts" class="btn btn-info">GO!</a>
             </li>

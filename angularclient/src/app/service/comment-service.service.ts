@@ -19,4 +19,17 @@ export class CommentService {
   public save(comment: Comment) {
     return this.http.post<Comment>(this.commentsUrl, comment);
   }
+
+    public put(comment: Comment) {
+      return this.http.put<Comment>(this.commentsUrl, comment);
+
+    }
+
+    public patch(comment: Comment) {
+      return this.http.patch<Comment>(this.commentsUrl, comment);
+    }
+
+    public delete(comment: Comment) {
+      return this.http.delete<Comment>(this.commentsUrl+"?commentId="+comment.id);
+    }
 }

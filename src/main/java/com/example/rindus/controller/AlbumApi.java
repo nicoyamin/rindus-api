@@ -20,7 +20,7 @@ public interface AlbumApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "No comments found"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -28,15 +28,15 @@ public interface AlbumApi {
     })
     @RequestMapping(value="/albums", method= RequestMethod.GET)
     ResponseEntity<List<Album>> getAlbums(@ApiParam(value="Extract data to JSON file")
-                                          @Valid @RequestParam(required=false) boolean extractJson,
+                                          @Valid @RequestParam(required=false, defaultValue = "false") boolean extractJson,
                                           @ApiParam(value="Extract data to XML file")
-                                          @Valid @RequestParam(required=false) boolean extractXml);
+                                          @Valid @RequestParam(required=false, defaultValue = "false") boolean extractXml);
 
     @ApiOperation(value = "Create a new album", nickname = "postAlbum", response = Album.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "New Album created successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -51,7 +51,7 @@ public interface AlbumApi {
             @ApiResponse(code = 200, message = "Album found and updated successfully"),
             @ApiResponse(code = 201, message = "Album not found, so it was created successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -65,7 +65,7 @@ public interface AlbumApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Album updated successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "Album not found"),
@@ -80,7 +80,7 @@ public interface AlbumApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Album deleted successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "Album not found"),

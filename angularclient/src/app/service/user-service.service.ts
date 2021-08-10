@@ -18,4 +18,17 @@ export class UserService {
   public save(user: User) {
     return this.http.post<User>(this.usersUrl, user);
   }
+
+  public put(user: User) {
+    return this.http.put<User>(this.usersUrl, user);
+
+  }
+
+  public patch(user: User) {
+    return this.http.patch<User>(this.usersUrl, user);
+  }
+
+  public delete(user: User) {
+    return this.http.delete<User>(this.usersUrl+"?userId="+user.id);
+  }
 }

@@ -1,5 +1,6 @@
 <div class="card my-5">
   <div class="card-body">
+    <h3>Create a new Todo</h3>
     <form (ngSubmit)="onSubmit()" #todoForm="ngForm">
       <div class="form-group">
         <label for="id">Id</label>
@@ -39,7 +40,7 @@
                name="completed"
                placeholder="Is ToDo completed?">
       </div>
-      <button type="submit" [disabled]="!postForm.form.valid"
+      <button type="submit" [disabled]="!todoForm.form.valid"
               class="btn btn-info">Submit</button>
     </form>
   </div>

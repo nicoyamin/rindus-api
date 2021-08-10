@@ -1,3 +1,6 @@
+import { Address } from '../model/address';
+import { Company } from '../model/company';
+
 export class User {
 
     id: number;

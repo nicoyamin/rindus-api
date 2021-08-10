@@ -18,4 +18,17 @@ export class PostService {
   public save(post: Post) {
     return this.http.post<Post>(this.postsUrl, post);
   }
+
+    public put(post: Post) {
+      return this.http.put<Post>(this.postsUrl, post);
+
+    }
+
+    public patch(post: Post) {
+      return this.http.patch<Post>(this.postsUrl, post);
+    }
+
+    public delete(post: Post) {
+      return this.http.delete<Post>(this.postsUrl+"?postId="+post.id);
+    }
 }

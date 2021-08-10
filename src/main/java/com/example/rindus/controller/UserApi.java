@@ -18,7 +18,7 @@ public interface UserApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "No user found"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -26,15 +26,15 @@ public interface UserApi {
     })
     @RequestMapping(value="/users", method= RequestMethod.GET)
     ResponseEntity<List<User>> getUsers(@ApiParam(value="Extract data to JSON file")
-                                        @Valid @RequestParam(required=false) boolean extractJson,
+                                        @Valid @RequestParam(required=false, defaultValue = "false") boolean extractJson,
                                         @ApiParam(value="Extract data to XML file")
-                                        @Valid @RequestParam(required=false) boolean extractXml);
+                                        @Valid @RequestParam(required=false, defaultValue = "false") boolean extractXml);
 
     @ApiOperation(value = "Create a new user", nickname = "postUser", response = User.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "New User created successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -49,7 +49,7 @@ public interface UserApi {
             @ApiResponse(code = 200, message = "User found and updated successfully"),
             @ApiResponse(code = 201, message = "User not found, so it was created successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -63,7 +63,7 @@ public interface UserApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User updated successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "User not found"),
@@ -78,7 +78,7 @@ public interface UserApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User deleted successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "User not found"),

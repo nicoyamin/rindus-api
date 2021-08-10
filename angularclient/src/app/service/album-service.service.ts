@@ -18,4 +18,17 @@ export class AlbumService{
   public save(album: Album) {
     return this.http.post<Album>(this.albumsUrl, album);
   }
+
+    public put(album: Album) {
+      return this.http.put<Album>(this.albumsUrl, album);
+
+    }
+
+    public patch(album: Album) {
+      return this.http.patch<Album>(this.albumsUrl, album);
+    }
+
+    public delete(album: Album) {
+      return this.http.delete<Album>(this.albumsUrl+"?albumId="+album.id);
+    }
 }

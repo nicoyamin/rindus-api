@@ -1,3 +1,5 @@
+import { Coordinates } from '../model/coordinates';
+
 export class Address {
     street: string;
     suite: string;

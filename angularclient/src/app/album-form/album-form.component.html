@@ -1,5 +1,6 @@
 <div class="card my-5">
   <div class="card-body">
+    <h3>Add a new Album</h3>
     <form (ngSubmit)="onSubmit()" #albumForm="ngForm">
       <div class="form-group">
         <label for="id">Id</label>
@@ -31,7 +32,7 @@
                required #title="ngModel">
       </div>
       <div [hidden]="!title.pristine" class="alert alert-danger">Album title is required</div>
-      <button type="submit" [disabled]="!postForm.form.valid"
+      <button type="submit" [disabled]="!albumForm.form.valid"
               class="btn btn-info">Submit</button>
     </form>
   </div>

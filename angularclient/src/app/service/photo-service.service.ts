@@ -18,4 +18,17 @@ export class PhotoService {
   public save(photo: Photo) {
     return this.http.post<Photo>(this.photosUrl, photo);
   }
+
+    public put(photo: Photo) {
+      return this.http.put<Photo>(this.photosUrl, photo);
+
+    }
+
+    public patch(photo: Photo) {
+      return this.http.patch<Photo>(this.photosUrl, photo);
+    }
+
+    public delete(photo: Photo) {
+      return this.http.delete<Photo>(this.photosUrl+"?photoId="+photo.id);
+    }
 }

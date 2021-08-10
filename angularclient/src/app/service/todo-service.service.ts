@@ -18,4 +18,17 @@ export class TodoService {
   public save(todo: Todo) {
     return this.http.post<Todo>(this.todosUrl, todo);
   }
+
+   public put(todo: Todo) {
+      return this.http.put<Todo>(this.todosUrl, todo);
+
+    }
+
+    public patch(todo: Todo) {
+      return this.http.patch<Todo>(this.todosUrl, todo);
+    }
+
+    public delete(todo: Todo) {
+      return this.http.delete<Todo>(this.todosUrl+"?todoId="+todo.id);
+    }
 }

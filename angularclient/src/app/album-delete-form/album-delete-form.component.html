@@ -1,0 +1,19 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h3>Delete an Album</h3>
+    <form (ngSubmit)="onSubmit()" #albumDeleteForm="ngForm">
+      <div class="form-group">
+        <label for="id">Id</label>
+        <input type="number" [(ngModel)]="album.id"
+               class="form-control"
+               id="id"
+               name="id"
+               placeholder="Enter album Id"
+               required #id="ngModel">
+      </div>
+      <div [hidden]="!id.pristine" class="alert alert-danger">Album Id is required</div>
+      <button type="submit" [disabled]="!albumDeleteForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>

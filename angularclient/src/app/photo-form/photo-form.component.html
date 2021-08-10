@@ -1,5 +1,6 @@
 <div class="card my-5">
   <div class="card-body">
+    <h3>Add a new Photo</h3>
     <form (ngSubmit)="onSubmit()" #photoForm="ngForm">
       <div class="form-group">
         <label for="id">Id</label>
@@ -49,7 +50,7 @@
                name="thumbnailUrl"
                placeholder="Enter photo  thumbnail Url">
       </div>
-      <button type="submit" [disabled]="!postForm.form.valid"
+      <button type="submit" [disabled]="!photoForm.form.valid"
               class="btn btn-info">Submit</button>
     </form>
   </div>

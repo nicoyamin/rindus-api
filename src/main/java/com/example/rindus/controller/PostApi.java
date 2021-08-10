@@ -20,7 +20,7 @@ public interface PostApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "No posts found"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -28,15 +28,15 @@ public interface PostApi {
     })
     @RequestMapping(value="/posts", method= RequestMethod.GET)
     ResponseEntity<List<Post>> getPosts(@ApiParam(value="Extract data to JSON file")
-                                        @Valid @RequestParam(required=false) boolean extractJson,
+                                        @Valid @RequestParam(required=false, defaultValue = "false") boolean extractJson,
                                         @ApiParam(value="Extract data to XML file")
-                                        @Valid @RequestParam(required=false) boolean extractXml);
+                                        @Valid @RequestParam(required=false, defaultValue = "false") boolean extractXml);
 
     @ApiOperation(value = "Create a new post", nickname = "newPost", response = Post.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "New Post created successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -51,7 +51,7 @@ public interface PostApi {
             @ApiResponse(code = 200, message = "Post found and updated successfully"),
             @ApiResponse(code = 201, message = "Post not found, so it was created successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
@@ -65,7 +65,7 @@ public interface PostApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Post updated successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "User not found"),
@@ -80,7 +80,7 @@ public interface PostApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User deleted successfully"),
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 204, message = "Bad request"),
+            @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "User not found"),
