@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TodoControllerTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rindus$All_in_rindus.exec</a> &gt; <a href="index.source.html" class="el_package">com.example.rindus.controller</a> &gt; <span class="el_source">TodoControllerTest.java</span></div><h1>TodoControllerTest.java</h1><pre class="source lang-java linenums">package com.example.rindus.controller;
+
+import com.example.rindus.entity.Todo;
+import com.example.rindus.exception.ResourceFormatException;
+import com.example.rindus.model.TodoRequest;
+import com.example.rindus.service.TodoService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+<span class="fc" id="L21">public class TodoControllerTest {</span>
+
+    @Mock
+    TodoService service;
+
+    @Mock
+    TodoRequest request;
+
+    @Mock
+    Todo todo;
+
+    TodoController controller;
+
+    @Mock
+    List&lt;Todo&gt; todos;
+
+    @BeforeEach
+    void setUp() {
+<span class="fc" id="L39">        MockitoAnnotations.openMocks(this);</span>
+<span class="fc" id="L40">        controller= new TodoController(service);</span>
+<span class="fc" id="L41">    }</span>
+
+    @Test
+    public void shouldGetTodosAndReturnTodoListAnd200Response() throws IOException {
+
+
+<span class="fc" id="L47">        when(service.getTodos(any(Boolean.class), any(Boolean.class))).thenReturn(todos);</span>
+
+<span class="fc" id="L49">        ResponseEntity response = controller.getTodos(false, false);</span>
+
+<span class="fc" id="L51">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L52">        assertEquals(response.getBody(), todos);</span>
+<span class="fc" id="L53">    }</span>
+
+    @Test
+    public void shouldCreateTodoAndReturnCreatedTodoAnd200Response() throws IOException, ResourceFormatException {
+
+
+<span class="fc" id="L59">        when(service.postTodo(request)).thenReturn(todo);</span>
+
+<span class="fc" id="L61">        ResponseEntity response = controller.postTodo(request);</span>
+
+<span class="fc" id="L63">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L64">        assertEquals(response.getBody(), todo);</span>
+<span class="fc" id="L65">    }</span>
+
+    @Test
+    public void shouldUpdateTodoAndReturnUpdatedTodoAnd200Response() throws IOException, ResourceFormatException {
+
+
+<span class="fc" id="L71">        when(service.putTodo(request)).thenReturn(todo);</span>
+
+<span class="fc" id="L73">        ResponseEntity response = controller.putTodo(request);</span>
+
+<span class="fc" id="L75">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L76">        assertEquals(response.getBody(), todo);</span>
+<span class="fc" id="L77">    }</span>
+
+    @Test
+    public void shouldPatchTodoAndReturnPatchedTodoAnd200Response() throws IOException, ResourceFormatException {
+
+
+<span class="fc" id="L83">        when(service.patchTodo(request)).thenReturn(todo);</span>
+
+<span class="fc" id="L85">        ResponseEntity response = controller.patchTodo(request);</span>
+
+<span class="fc" id="L87">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L88">        assertEquals(response.getBody(), todo);</span>
+<span class="fc" id="L89">    }</span>
+
+    @Test
+    public void shouldDeleteTodoAndReturnDeletedTodoIdAnd200Response() throws IOException, ResourceFormatException {
+
+
+<span class="fc" id="L95">        when(service.deleteTodo(1)).thenReturn(1);</span>
+
+<span class="fc" id="L97">        ResponseEntity response = controller.deleteTodo(1);</span>
+
+<span class="fc" id="L99">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L100">        assertEquals(response.getBody(), 1);</span>
+<span class="fc" id="L101">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

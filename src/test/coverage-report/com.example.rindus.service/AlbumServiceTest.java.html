@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AlbumServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rindus$All_in_rindus.exec</a> &gt; <a href="index.source.html" class="el_package">com.example.rindus.service</a> &gt; <span class="el_source">AlbumServiceTest.java</span></div><h1>AlbumServiceTest.java</h1><pre class="source lang-java linenums">package com.example.rindus.service;
+
+import com.example.rindus.ApiConstants;
+import com.example.rindus.ResourceExtractor;
+import com.example.rindus.TestUtils;
+import com.example.rindus.entity.Album;
+import com.example.rindus.exception.ResourceFormatException;
+import com.example.rindus.model.AlbumRequest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.rmi.UnexpectedException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+<span class="fc" id="L30">class AlbumServiceTest {</span>
+
+    @Mock
+    WebClient webClient;
+
+    @Mock
+    AlbumRequest request;
+
+    @Mock
+    WebClient.ResponseSpec response;
+
+    @Mock
+    Mono&lt;List&lt;Album&gt;&gt; albums;
+
+    @Mock
+    Mono&lt;Album&gt; albumMono;
+
+    @Mock
+    List&lt;Album&gt; albumList;
+
+    @Mock
+    WebClient.Builder webClientBuilder;
+
+    @Mock
+    WebClient.RequestHeadersUriSpec requestHeadersUriSpec;
+
+    @Mock
+    WebClient.RequestHeadersSpec requestHeadersSpec;
+
+    @Mock
+    WebClient.RequestBodyUriSpec requestBodyUriSpec;
+
+    @Mock
+    WebClient.RequestBodySpec requestBodySpec;
+
+    @Mock
+    Mono&lt;ResponseEntity&lt;Void&gt;&gt; monoResponseEntity;
+
+    @Mock
+    Album album;
+
+    AlbumService service;
+
+    @BeforeEach
+    void setUp() {
+<span class="fc" id="L75">        MockitoAnnotations.openMocks(this);</span>
+<span class="fc" id="L76">        when(webClientBuilder.baseUrl(any(String.class))).thenReturn(webClientBuilder);</span>
+<span class="fc" id="L77">        when(webClientBuilder.build()).thenReturn(webClient);</span>
+<span class="fc" id="L78">        service = new AlbumService(webClientBuilder);</span>
+<span class="fc" id="L79">    }</span>
+
+    @Test
+    public void shouldGetAlbumsAndReturnAlbumList() throws IOException {
+
+<span class="fc" id="L84">        when(webClient.get()).thenReturn(requestHeadersUriSpec);</span>
+<span class="fc" id="L85">        when(requestHeadersUriSpec.uri(&quot;/albums&quot;)).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L86">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+<span class="fc" id="L87">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L88">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L89">        when(response.bodyToMono(any(ParameterizedTypeReference.class))).thenReturn(albums);</span>
+<span class="fc" id="L90">        when(albums.block()).thenReturn(albumList);</span>
+
+<span class="fc" id="L92">        List&lt;Album&gt; response = service.getAlbums(false, false);</span>
+
+<span class="fc" id="L94">        assertEquals(response, albumList);</span>
+<span class="fc" id="L95">    }</span>
+
+    @Test
+    public void shouldPostAlbumAndReturnCreatedAlbum() throws UnexpectedException, ResourceFormatException {
+<span class="fc" id="L99">        when(webClient.post()).thenReturn(requestBodyUriSpec);</span>
+<span class="fc" id="L100">        when(requestBodyUriSpec.uri(&quot;/albums&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L101">        when(requestBodySpec.body(any(Mono.class), any(Class.class))).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L102">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L104">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L105">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L106">        when(response.bodyToMono(Album.class)).thenReturn(albumMono);</span>
+<span class="fc" id="L107">        when(albumMono.block()).thenReturn(album);</span>
+
+<span class="fc" id="L109">        Album response = service.postAlbum(TestUtils.createDummyAlbumRequest());</span>
+
+<span class="fc" id="L111">        assertEquals(response, album);</span>
+<span class="fc" id="L112">    }</span>
+
+    @Test
+    public void shouldUpdateAlbumAndReturnUpdatedAlbum() throws UnexpectedException, ResourceFormatException {
+<span class="fc" id="L116">        when(webClient.put()).thenReturn(requestBodyUriSpec);</span>
+<span class="fc" id="L117">        when(requestBodyUriSpec.uri(&quot;/albums/1&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L118">        when(requestBodySpec.body(any(Mono.class), any(Class.class))).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L119">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L121">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L122">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L123">        when(response.bodyToMono(Album.class)).thenReturn(albumMono);</span>
+<span class="fc" id="L124">        when(albumMono.block()).thenReturn(album);</span>
+
+<span class="fc" id="L126">        Album response = service.putAlbum(TestUtils.createDummyAlbumRequest());</span>
+
+<span class="fc" id="L128">        assertEquals(response, album);</span>
+<span class="fc" id="L129">    }</span>
+
+    @Test
+    public void shouldPatchAlbumAndReturnPatchedAlbum() throws UnexpectedException, ResourceFormatException {
+<span class="fc" id="L133">        when(webClient.patch()).thenReturn(requestBodyUriSpec);</span>
+<span class="fc" id="L134">        when(requestBodyUriSpec.uri(&quot;/albums/1&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L135">        when(requestBodySpec.body(any(Mono.class), any(Class.class))).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L136">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L138">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L139">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L140">        when(response.bodyToMono(Album.class)).thenReturn(albumMono);</span>
+<span class="fc" id="L141">        when(albumMono.block()).thenReturn(album);</span>
+
+<span class="fc" id="L143">        Album response = service.patchAlbum(TestUtils.createDummyAlbumRequest());</span>
+
+<span class="fc" id="L145">        assertEquals(response, album);</span>
+<span class="fc" id="L146">    }</span>
+
+    @Test
+    public void shouldDeleteAlbumAndReturnDeletedAlbumId() throws UnexpectedException, ResourceFormatException {
+<span class="fc" id="L150">        when(webClient.delete()).thenReturn(requestHeadersUriSpec);</span>
+<span class="fc" id="L151">        when(requestHeadersUriSpec.uri(&quot;/albums/1&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L152">        when(requestBodySpec.accept(MediaType.APPLICATION_JSON)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L153">        when(requestBodySpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L155">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L156">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L157">        when(response.bodyToMono(Album.class)).thenReturn(albumMono);</span>
+<span class="fc" id="L158">        when(albumMono.block()).thenReturn(album);</span>
+
+<span class="fc" id="L160">        int response = service.deleteAlbum(1);</span>
+
+<span class="fc" id="L162">        assertEquals(response, HttpStatus.OK.value());</span>
+<span class="fc" id="L163">    }</span>
+
+    @Test
+    public void shouldTakeAnInvalidAlbumRequestAndThrowResourceFormatException() {
+<span class="fc" id="L167">        when(webClient.post()).thenReturn(requestBodyUriSpec);</span>
+<span class="fc" id="L168">        when(requestBodyUriSpec.uri(&quot;/albums&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L169">        when(requestBodySpec.body(any(Mono.class), any(Class.class))).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L170">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L172">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L173">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L174">        when(response.bodyToMono(Album.class)).thenReturn(albumMono);</span>
+<span class="fc" id="L175">        when(albumMono.block()).thenReturn(album);</span>
+
+<span class="fc" id="L177">        ResourceFormatException exception = assertThrows(ResourceFormatException.class, () -&gt; {</span>
+<span class="nc" id="L178">            service.postAlbum(TestUtils.createInvalidAlbumRequest());</span>
+<span class="nc" id="L179">        });</span>
+
+<span class="fc" id="L181">        String expectedMessage = &quot;Album is not valid: id: This field must be positive&quot;;</span>
+
+<span class="fc" id="L183">        assertEquals(expectedMessage, exception.getMessage());</span>
+
+<span class="fc" id="L185">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

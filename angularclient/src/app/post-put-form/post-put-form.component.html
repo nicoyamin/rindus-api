@@ -1,0 +1,49 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h3>Update an existing post</h3>
+    <form (ngSubmit)="onSubmit()" #postPutForm="ngForm">
+      <div class="form-group">
+        <label for="id">Id</label>
+        <input type="number" [(ngModel)]="post.id"
+               class="form-control"
+               id="id"
+               name="id"
+               placeholder="Enter post Id"
+               required #id="ngModel">
+      </div>
+      <div [hidden]="!id.pristine" class="alert alert-danger">Post Id is required</div>
+      <div class="form-group">
+        <label for="userId">User Id</label>
+        <input type="number" [(ngModel)]="post.userId"
+               class="form-control"
+               id="userId"
+               name="userId"
+               placeholder="Enter your Id"
+               required #userId="ngModel">
+        <div [hidden]="!userId.pristine" class="alert alert-danger">User Id is required</div>
+      </div>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" [(ngModel)]="post.title"
+               class="form-control"
+               id="title"
+               name="title"
+               placeholder="Enter post title"
+               required #title="ngModel">
+      </div>
+      <div [hidden]="!title.pristine" class="alert alert-danger">Post title is required</div>
+      <div class="form-group">
+        <label for="body">Body</label>
+        <input type="text" [(ngModel)]="post.body"
+               class="form-control"
+               id="body"
+               name="body"
+               placeholder="Enter your post content"
+               required #body="ngModel">
+      </div>
+      <div [hidden]="!body.pristine" class="alert alert-danger">Post content is required</div>
+      <button type="submit" [disabled]="!postPutForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>

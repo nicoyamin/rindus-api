@@ -1,9 +1,25 @@
 package com.example.rindus;
 
+import io.swagger.models.auth.In;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.rmi.UnexpectedException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public final class ApiConstants {
 
     public static final String BASE_URL = "http://jsonplaceholder.typicode.com";
     public static final String EXTRACTED_PATH = "src\\main\\resources\\extracted-resources";
+    public static final Set<Integer> ACCEPTED_CODES =  Stream.of(HttpStatus.OK.value(),
+            HttpStatus.ACCEPTED.value(),
+            HttpStatus.CREATED.value(),
+            HttpStatus.NO_CONTENT.value())
+            .collect(Collectors.toCollection(HashSet::new));
+
 
     public enum Resources {
         POSTS("/posts", "Post"),
@@ -23,7 +39,14 @@ public final class ApiConstants {
 
     }
 
+
     private ApiConstants() {
 
+    }
+
+    public static final void checkForException(ResponseEntity status) throws UnexpectedException {
+        if(!ACCEPTED_CODES.contains(status.getStatusCodeValue())) {
+            throw new UnexpectedException(status.getBody().toString());
+        }
     }
 }

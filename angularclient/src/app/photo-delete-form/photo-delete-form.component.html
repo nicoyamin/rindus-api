@@ -1,0 +1,19 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h3>Delete a Photo</h3>
+    <form (ngSubmit)="onSubmit()" #photoDeleteForm="ngForm">
+      <div class="form-group">
+        <label for="id">Id</label>
+        <input type="number" [(ngModel)]="photo.id"
+               class="form-control"
+               id="id"
+               name="id"
+               placeholder="Enter photo Id"
+               required #id="ngModel">
+      </div>
+      <div [hidden]="!id.pristine" class="alert alert-danger">Photo Id is required</div>
+      <button type="submit" [disabled]="!photoDeleteForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>

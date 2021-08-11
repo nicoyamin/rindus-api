@@ -6,12 +6,21 @@ import lombok.Data;
 
 @Data
 public class UserRequest {
+
+
     Integer id;
+
     String name;
+
     String username;
+
     String email;
+
     Address address;
+
     String phone;
+
     String website;
+
     Company company;
 }

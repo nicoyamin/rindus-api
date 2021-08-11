@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TodoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rindus$All_in_rindus.exec</a> &gt; <a href="index.source.html" class="el_package">com.example.rindus.service</a> &gt; <span class="el_source">TodoService.java</span></div><h1>TodoService.java</h1><pre class="source lang-java linenums">package com.example.rindus.service;
+
+import com.example.rindus.ApiConstants;
+import com.example.rindus.ResourceExtractor;
+import com.example.rindus.entity.Todo;
+import com.example.rindus.entity.Todo;
+import com.example.rindus.exception.ResourceFormatException;
+import com.example.rindus.model.TodoRequest;
+import com.example.rindus.model.TodoRequest;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.io.IOException;
+import java.rmi.UnexpectedException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.StringJoiner;
+
+@Service
+public class TodoService {
+    private final WebClient webClient;
+
+<span class="fc" id="L30">    public TodoService(WebClient.Builder webClientBuilder) {</span>
+<span class="fc" id="L31">        this.webClient = webClientBuilder.baseUrl(ApiConstants.BASE_URL).build();</span>
+<span class="fc" id="L32">    }</span>
+
+    public List&lt;Todo&gt; getTodos(boolean extractJson, boolean extractXml) throws IOException {
+
+<span class="fc" id="L36">        WebClient.ResponseSpec response = webClient.get()</span>
+<span class="fc" id="L37">                .uri(ApiConstants.Resources.TODOS.resource)</span>
+<span class="fc" id="L38">                .retrieve();</span>
+
+<span class="fc" id="L40">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+<span class="fc" id="L42">        Mono&lt;List&lt;Todo&gt;&gt; todos = response.bodyToMono(new ParameterizedTypeReference&lt;List&lt;Todo&gt;&gt;() {});</span>
+
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if(extractJson) {</span>
+<span class="nc" id="L45">            ResourceExtractor.extractToJson(ApiConstants.Resources.TODOS.resource, todos);</span>
+        }
+
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if(extractXml) {</span>
+<span class="nc" id="L49">            ResourceExtractor.extractToXml(ApiConstants.Resources.TODOS.resource,</span>
+                    todos,
+                    ApiConstants.Resources.TODOS.tagName);
+        }
+
+<span class="fc" id="L54">        return todos.block();</span>
+    }
+
+    public Todo postTodo(TodoRequest request) throws UnexpectedException, ResourceFormatException {
+<span class="fc" id="L58">        WebClient.ResponseSpec response  = webClient.post()</span>
+<span class="fc" id="L59">                .uri(ApiConstants.Resources.TODOS.resource)</span>
+<span class="fc" id="L60">                .body(Mono.just(createTodo(request)), Todo.class)</span>
+<span class="fc" id="L61">                .retrieve();</span>
+
+<span class="fc" id="L63">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+<span class="fc" id="L65">        return response.bodyToMono(Todo.class).block();</span>
+    }
+
+    public Todo putTodo(TodoRequest request) throws UnexpectedException, ResourceFormatException {
+
+<span class="fc" id="L70">        String todoId =&quot;/&quot; + request.getId();</span>
+
+<span class="fc" id="L72">        WebClient.ResponseSpec response  = webClient.put()</span>
+<span class="fc" id="L73">                .uri(ApiConstants.Resources.TODOS.resource + todoId)</span>
+<span class="fc" id="L74">                .body(Mono.just(createTodo(request)), Todo.class)</span>
+<span class="fc" id="L75">                .retrieve();</span>
+
+<span class="fc" id="L77">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+<span class="fc" id="L79">        return response.bodyToMono(Todo.class).block();</span>
+    }
+
+    public Todo patchTodo(TodoRequest request) throws UnexpectedException, ResourceFormatException {
+
+<span class="fc" id="L84">        String todoId =&quot;/&quot; + request.getId();</span>
+
+<span class="fc" id="L86">        WebClient.ResponseSpec response  = webClient.patch()</span>
+<span class="fc" id="L87">                .uri(ApiConstants.Resources.TODOS.resource + todoId)</span>
+<span class="fc" id="L88">                .body(Mono.just(createTodo(request)), Todo.class)</span>
+<span class="fc" id="L89">                .retrieve();</span>
+
+<span class="fc" id="L91">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+<span class="fc" id="L93">        return response.bodyToMono(Todo.class).block();</span>
+    }
+
+    public int deleteTodo(int todoId) throws UnexpectedException {
+
+<span class="fc" id="L98">        WebClient.ResponseSpec response = webClient.delete()</span>
+<span class="fc" id="L99">                .uri(ApiConstants.Resources.TODOS.resource + &quot;/&quot; + todoId)</span>
+<span class="fc" id="L100">                .accept(MediaType.APPLICATION_JSON)</span>
+<span class="fc" id="L101">                .retrieve();</span>
+
+<span class="fc" id="L103">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+
+<span class="fc" id="L106">        return response.toBodilessEntity().block().getStatusCodeValue();</span>
+
+    }
+
+    private Todo createTodo(TodoRequest request) throws ResourceFormatException {
+
+<span class="fc" id="L112">        Todo newTodo = new Todo();</span>
+
+<span class="fc" id="L114">        newTodo.setId(request.getId());</span>
+<span class="fc" id="L115">        newTodo.setUserId(request.getUserId());</span>
+<span class="fc" id="L116">        newTodo.setTitle(request.getTitle());</span>
+<span class="fc" id="L117">        newTodo.setCompleted(request.getCompleted());</span>
+
+<span class="fc" id="L119">        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();</span>
+
+<span class="fc" id="L121">        Set&lt;ConstraintViolation&lt;Todo&gt;&gt; constraintViolations = validator.validate(newTodo);</span>
+
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        if (constraintViolations.size() &gt; 0) {</span>
+<span class="fc" id="L124">            StringJoiner joiner = new StringJoiner(&quot;, &quot;,&quot;Todo is not valid: &quot;, &quot;&quot;);</span>
+<span class="fc" id="L125">            Set&lt;String&gt; violationMessages = new HashSet&lt;String&gt;();</span>
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">            for (ConstraintViolation&lt;Todo&gt; constraintViolation : constraintViolations) {</span>
+<span class="fc" id="L128">                joiner.add(constraintViolation.getPropertyPath() +&quot;: &quot;+constraintViolation.getMessage());</span>
+<span class="fc" id="L129">            }</span>
+
+<span class="fc" id="L131">            throw new ResourceFormatException(joiner.toString());</span>
+        }
+
+<span class="fc" id="L134">        return newTodo;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

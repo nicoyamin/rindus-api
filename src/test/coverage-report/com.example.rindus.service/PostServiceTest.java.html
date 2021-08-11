@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PostServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rindus$All_in_rindus.exec</a> &gt; <a href="index.source.html" class="el_package">com.example.rindus.service</a> &gt; <span class="el_source">PostServiceTest.java</span></div><h1>PostServiceTest.java</h1><pre class="source lang-java linenums">package com.example.rindus.service;
+
+import com.example.rindus.TestUtils;
+import com.example.rindus.entity.Post;
+import com.example.rindus.exception.ResourceFormatException;
+import com.example.rindus.model.PostRequest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import java.io.IOException;
+import java.rmi.UnexpectedException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+<span class="fc" id="L26">class PostServiceTest {</span>
+
+    @Mock
+    WebClient webClient;
+
+    @Mock
+    PostRequest request;
+
+    @Mock
+    WebClient.ResponseSpec response;
+
+    @Mock
+    Mono&lt;List&lt;Post&gt;&gt; posts;
+
+    @Mock
+    Mono&lt;Post&gt; postMono;
+
+    @Mock
+    List&lt;Post&gt; postList;
+
+    @Mock
+    WebClient.Builder webClientBuilder;
+
+    @Mock
+    WebClient.RequestHeadersUriSpec requestHeadersUriSpec;
+
+    @Mock
+    WebClient.RequestHeadersSpec requestHeadersSpec;
+
+    @Mock
+    WebClient.RequestBodyUriSpec requestBodyUriSpec;
+
+    @Mock
+    WebClient.RequestBodySpec requestBodySpec;
+
+    @Mock
+    Mono&lt;ResponseEntity&lt;Void&gt;&gt; monoResponseEntity;
+
+    @Mock
+    Post post;
+
+    PostService service;
+    
+    @BeforeEach
+    void setUp() {
+<span class="fc" id="L71">        MockitoAnnotations.openMocks(this);</span>
+<span class="fc" id="L72">        when(webClientBuilder.baseUrl(any(String.class))).thenReturn(webClientBuilder);</span>
+<span class="fc" id="L73">        when(webClientBuilder.build()).thenReturn(webClient);</span>
+<span class="fc" id="L74">        service = new PostService(webClientBuilder);</span>
+<span class="fc" id="L75">    }</span>
+
+    @Test
+    public void shouldGetPostsAndReturnPostList() throws IOException {
+
+<span class="fc" id="L80">        when(webClient.get()).thenReturn(requestHeadersUriSpec);</span>
+<span class="fc" id="L81">        when(requestHeadersUriSpec.uri(&quot;/posts&quot;)).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L82">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+<span class="fc" id="L83">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L84">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L85">        when(response.bodyToMono(any(ParameterizedTypeReference.class))).thenReturn(posts);</span>
+<span class="fc" id="L86">        when(posts.block()).thenReturn(postList);</span>
+
+<span class="fc" id="L88">        List&lt;Post&gt; response = service.getPosts(false, false);</span>
+
+<span class="fc" id="L90">        assertEquals(response, postList);</span>
+<span class="fc" id="L91">    }</span>
+
+    @Test
+    public void shouldPostPostAndReturnCreatedPost() throws UnexpectedException, ResourceFormatException {
+<span class="fc" id="L95">        when(webClient.post()).thenReturn(requestBodyUriSpec);</span>
+<span class="fc" id="L96">        when(requestBodyUriSpec.uri(&quot;/posts&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L97">        when(requestBodySpec.body(any(Mono.class), any(Class.class))).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L98">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L100">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L101">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L102">        when(response.bodyToMono(Post.class)).thenReturn(postMono);</span>
+<span class="fc" id="L103">        when(postMono.block()).thenReturn(post);</span>
+
+<span class="fc" id="L105">        Post response = service.newPost(TestUtils.createDummyPostRequest());</span>
+
+<span class="fc" id="L107">        assertEquals(response, post);</span>
+<span class="fc" id="L108">    }</span>
+
+    @Test
+    public void shouldUpdatePostAndReturnUpdatedPost() throws UnexpectedException, ResourceFormatException {
+<span class="fc" id="L112">        when(webClient.put()).thenReturn(requestBodyUriSpec);</span>
+<span class="fc" id="L113">        when(requestBodyUriSpec.uri(&quot;/posts/1&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L114">        when(requestBodySpec.body(any(Mono.class), any(Class.class))).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L115">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L117">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L118">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L119">        when(response.bodyToMono(Post.class)).thenReturn(postMono);</span>
+<span class="fc" id="L120">        when(postMono.block()).thenReturn(post);</span>
+
+<span class="fc" id="L122">        Post response = service.putPost(TestUtils.createDummyPostRequest());</span>
+
+<span class="fc" id="L124">        assertEquals(response, post);</span>
+<span class="fc" id="L125">    }</span>
+
+    @Test
+    public void shouldPatchPostAndReturnPatchedPost() throws UnexpectedException, ResourceFormatException {
+<span class="fc" id="L129">        when(webClient.patch()).thenReturn(requestBodyUriSpec);</span>
+<span class="fc" id="L130">        when(requestBodyUriSpec.uri(&quot;/posts/1&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L131">        when(requestBodySpec.body(any(Mono.class), any(Class.class))).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L132">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L134">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L135">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L136">        when(response.bodyToMono(Post.class)).thenReturn(postMono);</span>
+<span class="fc" id="L137">        when(postMono.block()).thenReturn(post);</span>
+
+<span class="fc" id="L139">        Post response = service.patchPost(TestUtils.createDummyPostRequest());</span>
+
+<span class="fc" id="L141">        assertEquals(response, post);</span>
+<span class="fc" id="L142">    }</span>
+
+    @Test
+    public void shouldDeletePostAndReturnDeletedPostId() throws UnexpectedException, ResourceFormatException {
+<span class="fc" id="L146">        when(webClient.delete()).thenReturn(requestHeadersUriSpec);</span>
+<span class="fc" id="L147">        when(requestHeadersUriSpec.uri(&quot;/posts/1&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L148">        when(requestBodySpec.accept(MediaType.APPLICATION_JSON)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L149">        when(requestBodySpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L151">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L152">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L153">        when(response.bodyToMono(Post.class)).thenReturn(postMono);</span>
+<span class="fc" id="L154">        when(postMono.block()).thenReturn(post);</span>
+
+<span class="fc" id="L156">        int response = service.deletePost(1);</span>
+
+<span class="fc" id="L158">        assertEquals(response, HttpStatus.OK.value());</span>
+<span class="fc" id="L159">    }</span>
+
+    @Test
+    public void shouldTakeAnInvalidPostRequestAndThrowResourceFormatException() {
+<span class="fc" id="L163">        when(webClient.post()).thenReturn(requestBodyUriSpec);</span>
+<span class="fc" id="L164">        when(requestBodyUriSpec.uri(&quot;/posts&quot;)).thenReturn(requestBodySpec);</span>
+<span class="fc" id="L165">        when(requestBodySpec.body(any(Mono.class), any(Class.class))).thenReturn(requestHeadersSpec);</span>
+<span class="fc" id="L166">        when(requestHeadersSpec.retrieve()).thenReturn(response);</span>
+
+<span class="fc" id="L168">        when(response.toBodilessEntity()).thenReturn(monoResponseEntity);</span>
+<span class="fc" id="L169">        when(monoResponseEntity.block()).thenReturn(new ResponseEntity&lt;Void&gt;(HttpStatus.OK));</span>
+<span class="fc" id="L170">        when(response.bodyToMono(Post.class)).thenReturn(postMono);</span>
+<span class="fc" id="L171">        when(postMono.block()).thenReturn(post);</span>
+
+<span class="fc" id="L173">        ResourceFormatException exception = assertThrows(ResourceFormatException.class, () -&gt; {</span>
+<span class="nc" id="L174">            service.newPost(TestUtils.createInvalidPostRequest());</span>
+<span class="nc" id="L175">        });</span>
+
+<span class="fc" id="L177">        String expectedMessage = &quot;Post is not valid: id: This field must be positive&quot;;</span>
+
+<span class="fc" id="L179">        assertEquals(expectedMessage, exception.getMessage());</span>
+
+<span class="fc" id="L181">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

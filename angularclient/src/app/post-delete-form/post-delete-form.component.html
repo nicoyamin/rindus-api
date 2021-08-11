@@ -1,0 +1,19 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h3>Delete a post</h3>
+    <form (ngSubmit)="onSubmit()" #postDeleteForm="ngForm">
+      <div class="form-group">
+        <label for="id">Id</label>
+        <input type="number" [(ngModel)]="post.id"
+               class="form-control"
+               id="id"
+               name="id"
+               placeholder="Enter post Id"
+               required #id="ngModel">
+      </div>
+      <div [hidden]="!id.pristine" class="alert alert-danger">Post Id is required</div>
+      <button type="submit" [disabled]="!postDeleteForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>
