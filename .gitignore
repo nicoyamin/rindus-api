@@ -59,7 +59,7 @@ build/
 /src/main/resources/extracted-resources/users.xml
 /src/main/resources/extracted-resources/posts.json
 /src/main/resources/extracted-resources/posts.xml
-/src/main/resources/extracted-resources/commments.json
+/src/main/resources/extracted-resources/comments.json
 /src/main/resources/extracted-resources/comments.xml
 /src/main/resources/extracted-resources/photos.json
 /src/main/resources/extracted-resources/photos.xml
