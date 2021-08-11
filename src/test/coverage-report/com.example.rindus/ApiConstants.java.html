@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApiConstants.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rindus$All_in_rindus.exec</a> &gt; <a href="index.source.html" class="el_package">com.example.rindus</a> &gt; <span class="el_source">ApiConstants.java</span></div><h1>ApiConstants.java</h1><pre class="source lang-java linenums">package com.example.rindus;
+
+import io.swagger.models.auth.In;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.rmi.UnexpectedException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public final class ApiConstants {
+
+    public static final String BASE_URL = &quot;http://jsonplaceholder.typicode.com&quot;;
+    public static final String EXTRACTED_PATH = &quot;src\\main\\resources\\extracted-resources&quot;;
+<span class="fc" id="L17">    public static final Set&lt;Integer&gt; ACCEPTED_CODES =  Stream.of(HttpStatus.OK.value(),</span>
+<span class="fc" id="L18">            HttpStatus.ACCEPTED.value(),</span>
+<span class="fc" id="L19">            HttpStatus.CREATED.value(),</span>
+<span class="fc" id="L20">            HttpStatus.NO_CONTENT.value())</span>
+<span class="fc" id="L21">            .collect(Collectors.toCollection(HashSet::new));</span>
+
+
+<span class="fc" id="L24">    public enum Resources {</span>
+<span class="fc" id="L25">        POSTS(&quot;/posts&quot;, &quot;Post&quot;),</span>
+<span class="fc" id="L26">        COMMENTS(&quot;/comments&quot;, &quot;Comment&quot;),</span>
+<span class="fc" id="L27">        ALBUMS(&quot;/albums&quot;, &quot;Album&quot;),</span>
+<span class="fc" id="L28">        PHOTOS(&quot;/photos&quot;, &quot;Photo&quot;),</span>
+<span class="fc" id="L29">        USERS(&quot;/users&quot;, &quot;User&quot;),</span>
+<span class="fc" id="L30">        TODOS(&quot;/todos&quot;, &quot;Todo&quot;);</span>
+
+        public final String resource;
+        public final String tagName;
+
+<span class="fc" id="L35">        Resources(String resource, String tagName) {</span>
+<span class="fc" id="L36">            this.resource = resource;</span>
+<span class="fc" id="L37">            this.tagName = tagName;</span>
+<span class="fc" id="L38">        }</span>
+
+    }
+
+
+    private ApiConstants() {
+
+    }
+
+    public static final void checkForException(ResponseEntity status) throws UnexpectedException {
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if(!ACCEPTED_CODES.contains(status.getStatusCodeValue())) {</span>
+<span class="nc" id="L49">            throw new UnexpectedException(status.getBody().toString());</span>
+        }
+<span class="fc" id="L51">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

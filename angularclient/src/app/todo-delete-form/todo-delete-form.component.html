@@ -1,0 +1,20 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h3>Delete a Todo</h3>
+    <form (ngSubmit)="onSubmit()" #todoDeleteForm="ngForm">
+      <div class="form-group">
+        <label for="id">Id</label>
+        <input type="number" [(ngModel)]="todo.id"
+               class="form-control"
+               id="id"
+               name="id"
+               placeholder="Enter todo Id"
+               required #id="ngModel">
+      </div>
+      <div [hidden]="!id.pristine" class="alert alert-danger">Todo Id is required</div>
+      <button type="submit" [disabled]="!todoDeleteForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>
+

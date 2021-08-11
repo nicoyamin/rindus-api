@@ -1,0 +1,51 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h3>Patch an existing Comment</h3>
+    <form (ngSubmit)="onSubmit()" #commentPatchForm="ngForm">
+      <div class="form-group">
+        <label for="id">Id</label>
+        <input type="number" [(ngModel)]="comment.id"
+               class="form-control"
+               id="id"
+               name="id"
+               placeholder="Enter comment Id"
+               required #id="ngModel">
+      </div>
+      <div class="form-group">
+        <label for="postId">Post Id</label>
+        <input type="number" [(ngModel)]="comment.postId"
+               class="form-control"
+               id="postId"
+               name="postId"
+               placeholder="Enter Post Id">
+      </div>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" [(ngModel)]="comment.name"
+               class="form-control"
+               id="name"
+               name="name"
+               placeholder="Enter comment name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" [(ngModel)]="comment.email"
+               class="form-control"
+               id="email"
+               name="email"
+               placeholder="Enter commenter email">
+      </div>
+      <div class="form-group">
+        <label for="body">Body</label>
+        <input type="text" [(ngModel)]="comment.body"
+               class="form-control"
+               id="body"
+               name="body"
+               placeholder="Enter your comment content">
+      </div>
+      <button type="submit" [disabled]="!commentPatchForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>
+

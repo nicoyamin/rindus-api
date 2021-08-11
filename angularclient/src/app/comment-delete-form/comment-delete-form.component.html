@@ -1,0 +1,20 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h3>Delete a Comment</h3>
+    <form (ngSubmit)="onSubmit()" #commentDeleteForm="ngForm">
+      <div class="form-group">
+        <label for="id">Id</label>
+        <input type="number" [(ngModel)]="comment.id"
+               class="form-control"
+               id="id"
+               name="id"
+               placeholder="Enter comment Id"
+               required #id="ngModel">
+      </div>
+      <div [hidden]="!id.pristine" class="alert alert-danger">Comment Id is required</div>
+      <button type="submit" [disabled]="!commentDeleteForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>
+
