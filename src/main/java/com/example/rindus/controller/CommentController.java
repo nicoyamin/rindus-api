@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.rmi.UnexpectedException;
 import java.util.List;
 
@@ -27,9 +28,8 @@ public class CommentController implements CommentApi {
         this.commentService = commentService;
     }
 
-    @SneakyThrows
     @Override
-    public ResponseEntity<List<Comment>> getComments(boolean extractJson, boolean extractXml) {
+    public ResponseEntity<List<Comment>> getComments(boolean extractJson, boolean extractXml) throws IOException {
         List<Comment> comments = commentService.getComments(extractJson, extractXml);
         return ResponseEntity.ok(comments);
     }
@@ -55,5 +55,5 @@ public class CommentController implements CommentApi {
     @Override
     public ResponseEntity deleteComment(@Valid int commentId) throws UnexpectedException {
         commentService.deleteComment(commentId);
-        return ResponseEntity.ok("Comment with Id " + commentId + " deleted successfully");    }
+        return ResponseEntity.ok(commentId);    }
 }

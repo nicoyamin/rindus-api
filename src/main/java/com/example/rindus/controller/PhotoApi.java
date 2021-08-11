@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.rmi.UnexpectedException;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface PhotoApi {
     ResponseEntity<List<Photo>> getPhotos(@ApiParam(value="Extract data to JSON file")
                                           @Valid @RequestParam(required=false, defaultValue = "false") boolean extractJson,
                                           @ApiParam(value="Extract data to XML file")
-                                          @Valid @RequestParam(required=false, defaultValue = "false") boolean extractXml) throws ResourceFormatException;;
+                                          @Valid @RequestParam(required=false, defaultValue = "false") boolean extractXml) throws ResourceFormatException, IOException;
 
     @ApiOperation(value = "Create a new Photo", nickname = "postPhoto", response = Photo.class)
     @ApiResponses(value = {
@@ -45,7 +46,7 @@ public interface PhotoApi {
     })
     @RequestMapping(value="/photos", produces={"application/JSON"}, method= RequestMethod.POST)
     ResponseEntity<Photo> postPhoto(@ApiParam(value="Data for new Photo")
-                                        @Valid @RequestBody(required=true) PhotoRequest request) throws ResourceFormatException;;
+                                        @Valid @RequestBody(required=true) PhotoRequest request) throws ResourceFormatException, UnexpectedException;
 
     @ApiOperation(value = "Update Photo or create if not found", nickname = "putPhoto", response = Photo.class)
     @ApiResponses(value = {
@@ -60,7 +61,7 @@ public interface PhotoApi {
     })
     @RequestMapping(value="/photos", produces={"application/JSON"}, method= RequestMethod.PUT)
     ResponseEntity<Photo> putPhoto(@ApiParam(value="Photo data with updated information")
-                                       @Valid @RequestBody(required=true) PhotoRequest request) throws ResourceFormatException, UnexpectedException;;
+                                       @Valid @RequestBody(required=true) PhotoRequest request) throws ResourceFormatException, UnexpectedException;
 
     @ApiOperation(value = "Patch Photo", nickname = "patchPhoto", response = Photo.class)
     @ApiResponses(value = {
@@ -74,7 +75,7 @@ public interface PhotoApi {
     })
     @RequestMapping(value="/photos", produces={"application/JSON"}, method= RequestMethod.PATCH)
     ResponseEntity<Photo> patchPhoto(@ApiParam(value="Photo data with updated information")
-                                         @Valid @RequestBody(required=true) PhotoRequest request) throws ResourceFormatException, UnexpectedException;;
+                                         @Valid @RequestBody(required=true) PhotoRequest request) throws ResourceFormatException, UnexpectedException;
 
 
     @ApiOperation(value = "Delete Photo", nickname = "deletePhoto", response = Photo.class)
@@ -89,5 +90,6 @@ public interface PhotoApi {
     })
     @RequestMapping(value="/photos", produces={"application/JSON"}, method= RequestMethod.DELETE)
     ResponseEntity deletePhoto(@ApiParam(value="Id of the Photo to delete")
-                                 @Valid @RequestParam(required=true) int photoId) throws ResourceFormatException, UnexpectedException;;
+                                 @Valid @RequestParam(required=true) int photoId) throws ResourceFormatException, UnexpectedException;
+
 }

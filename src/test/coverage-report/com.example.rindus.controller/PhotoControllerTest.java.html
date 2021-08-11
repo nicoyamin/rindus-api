@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PhotoControllerTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rindus$All_in_rindus.exec</a> &gt; <a href="index.source.html" class="el_package">com.example.rindus.controller</a> &gt; <span class="el_source">PhotoControllerTest.java</span></div><h1>PhotoControllerTest.java</h1><pre class="source lang-java linenums">package com.example.rindus.controller;
+
+import com.example.rindus.entity.Photo;
+import com.example.rindus.exception.ResourceFormatException;
+import com.example.rindus.model.PhotoRequest;
+import com.example.rindus.service.PhotoService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+<span class="fc" id="L21">public class PhotoControllerTest {</span>
+    @Mock
+    PhotoService service;
+
+    @Mock
+    PhotoRequest request;
+
+    @Mock
+    Photo photo;
+
+    PhotoController controller;
+
+    @Mock
+    List&lt;Photo&gt; photos;
+
+    @BeforeEach
+    void setUp() {
+<span class="fc" id="L38">        MockitoAnnotations.openMocks(this);</span>
+<span class="fc" id="L39">        controller= new PhotoController(service);</span>
+<span class="fc" id="L40">    }</span>
+
+    @Test
+    public void shouldGetPhotosAndReturnPhotoListAnd200Response() throws IOException {
+
+
+<span class="fc" id="L46">        when(service.getPhotos(any(Boolean.class), any(Boolean.class))).thenReturn(photos);</span>
+
+<span class="fc" id="L48">        ResponseEntity response = controller.getPhotos(false, false);</span>
+
+<span class="fc" id="L50">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L51">        assertEquals(response.getBody(), photos);</span>
+<span class="fc" id="L52">    }</span>
+
+    @Test
+    public void shouldCreatePhotoAndReturnCreatedPhotoAnd200Response() throws IOException, ResourceFormatException {
+
+
+<span class="fc" id="L58">        when(service.postPhoto(request)).thenReturn(photo);</span>
+
+<span class="fc" id="L60">        ResponseEntity response = controller.postPhoto(request);</span>
+
+<span class="fc" id="L62">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L63">        assertEquals(response.getBody(), photo);</span>
+<span class="fc" id="L64">    }</span>
+
+    @Test
+    public void shouldUpdatePhotoAndReturnUpdatedPhotoAnd200Response() throws IOException, ResourceFormatException {
+
+
+<span class="fc" id="L70">        when(service.putPhoto(request)).thenReturn(photo);</span>
+
+<span class="fc" id="L72">        ResponseEntity response = controller.putPhoto(request);</span>
+
+<span class="fc" id="L74">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L75">        assertEquals(response.getBody(), photo);</span>
+<span class="fc" id="L76">    }</span>
+
+    @Test
+    public void shouldPatchPhotoAndReturnPatchedPhotoAnd200Response() throws IOException, ResourceFormatException {
+
+
+<span class="fc" id="L82">        when(service.patchPhoto(request)).thenReturn(photo);</span>
+
+<span class="fc" id="L84">        ResponseEntity response = controller.patchPhoto(request);</span>
+
+<span class="fc" id="L86">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L87">        assertEquals(response.getBody(), photo);</span>
+<span class="fc" id="L88">    }</span>
+
+    @Test
+    public void shouldDeletePhotoAndReturnDeletedPhotoIdAnd200Response() throws IOException, ResourceFormatException {
+
+
+<span class="fc" id="L94">        when(service.deletePhoto(1)).thenReturn(1);</span>
+
+<span class="fc" id="L96">        ResponseEntity response = controller.deletePhoto(1);</span>
+
+<span class="fc" id="L98">        assertEquals(response.getStatusCode(), HttpStatus.OK);</span>
+<span class="fc" id="L99">        assertEquals(response.getBody(), 1);</span>
+<span class="fc" id="L100">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

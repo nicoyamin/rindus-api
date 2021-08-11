@@ -12,7 +12,11 @@ export class PhotoService {
   }
 
   public findAll(): Observable<Photo[]> {
-    return this.http.get<Photo[]>(this.photosUrl);
+    let extractJson = ((document.getElementById("extractJson") as HTMLInputElement).value);
+    let extractXml = ((document.getElementById("extractXml") as HTMLInputElement).value);
+    let getPhotosUrl = this.photosUrl+"?extractJson="+extractJson+"&extractXml="+extractXml
+    console.log(getPhotosUrl);
+    return this.http.get<Photo[]>(getPhotosUrl);
   }
 
   public save(photo: Photo) {

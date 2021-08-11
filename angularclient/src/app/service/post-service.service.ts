@@ -12,7 +12,11 @@ export class PostService {
   }
 
   public findAll(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.postsUrl);
+        let extractJson = ((document.getElementById("extractJson") as HTMLInputElement).value);
+        let extractXml = ((document.getElementById("extractXml") as HTMLInputElement).value);
+        let getPostsUrl = this.postsUrl+"?extractJson="+extractJson+"&extractXml="+extractXml
+        console.log(getPostsUrl);
+        return this.http.get<Post[]>(getPostsUrl);
   }
 
   public save(post: Post) {

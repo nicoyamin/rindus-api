@@ -12,7 +12,11 @@ export class AlbumService{
   }
 
   public findAll(): Observable<Album[]> {
-    return this.http.get<Album[]>(this.albumsUrl);
+    let extractJson = ((document.getElementById("extractJson") as HTMLInputElement).value);
+    let extractXml = ((document.getElementById("extractXml") as HTMLInputElement).value);
+    let getAlbumsUrl = this.albumsUrl+"?extractJson="+extractJson+"&extractXml="+extractXml
+    console.log(getAlbumsUrl);
+    return this.http.get<Album[]>(getAlbumsUrl);
   }
 
   public save(album: Album) {

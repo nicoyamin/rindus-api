@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.rmi.UnexpectedException;
 import java.util.List;
 
@@ -25,9 +26,8 @@ public class PostController implements PostApi{
     }
 
 
-    @SneakyThrows
     @Override
-    public ResponseEntity<List<Post>> getPosts(boolean extractJson, boolean extractXml) {
+    public ResponseEntity<List<Post>> getPosts(boolean extractJson, boolean extractXml) throws IOException {
         List<Post> posts = postService.getPosts(extractJson, extractXml);
         return ResponseEntity.ok(posts);
     }
@@ -53,7 +53,7 @@ public class PostController implements PostApi{
 
     @Override
     public ResponseEntity deletePost(int postId) throws UnexpectedException {
-        postService.deletePost(postId);
-        return ResponseEntity.ok("Post with Id " + postId + " deleted successfully");
+        int result = postService.deletePost(postId);
+        return ResponseEntity.ok(postId);
     }
 }

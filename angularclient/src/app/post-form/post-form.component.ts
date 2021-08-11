@@ -32,7 +32,6 @@ export class PostFormComponent {
 
   onSubmit() {
     this.postService.save(this.post).subscribe(result => {
-      console.log(result);
       this.setResponseData("Post was created successfully",200,JSON.stringify(result));
       this.router.navigate(['/displayresponse']);
     });

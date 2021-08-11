@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.rmi.UnexpectedException;
 import java.util.List;
 
@@ -26,16 +27,14 @@ public class PhotoController implements PhotoApi{
         this.photoService = photoService;
     }
 
-    @SneakyThrows
     @Override
-    public ResponseEntity<List<Photo>> getPhotos(boolean extractJson, boolean extractXml) {
+    public ResponseEntity<List<Photo>> getPhotos(boolean extractJson, boolean extractXml) throws IOException {
         List<Photo> photos = photoService.getPhotos(extractJson, extractXml);
         return ResponseEntity.ok(photos);
     }
 
     @Override
-    @SneakyThrows
-    public ResponseEntity<Photo> postPhoto(@Valid PhotoRequest request) {
+    public ResponseEntity<Photo> postPhoto(@Valid PhotoRequest request) throws UnexpectedException, ResourceFormatException {
         Photo createdPhoto = photoService.postPhoto(request);
         return ResponseEntity.ok(createdPhoto);
     }
@@ -55,6 +54,7 @@ public class PhotoController implements PhotoApi{
     @Override
     public ResponseEntity deletePhoto(@Valid int photoId) throws UnexpectedException {
         photoService.deletePhoto(photoId);
-        return ResponseEntity.ok("Photo with Id " + photoId + " deleted successfully");
+        return ResponseEntity.ok(photoId);
     }
+
 }

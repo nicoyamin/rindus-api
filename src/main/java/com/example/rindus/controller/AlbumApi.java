@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.rmi.UnexpectedException;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public interface AlbumApi {
     ResponseEntity<List<Album>> getAlbums(@ApiParam(value="Extract data to JSON file")
                                           @Valid @RequestParam(required=false, defaultValue = "false") boolean extractJson,
                                           @ApiParam(value="Extract data to XML file")
-                                          @Valid @RequestParam(required=false, defaultValue = "false") boolean extractXml);
+                                          @Valid @RequestParam(required=false, defaultValue = "false") boolean extractXml) throws IOException;
 
     @ApiOperation(value = "Create a new album", nickname = "postAlbum", response = Album.class)
     @ApiResponses(value = {

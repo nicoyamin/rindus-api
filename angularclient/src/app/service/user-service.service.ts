@@ -12,8 +12,11 @@ export class UserService {
   }
 
   public findAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl);
-  }
+    let extractJson = ((document.getElementById("extractJson") as HTMLInputElement).value);
+    let extractXml = ((document.getElementById("extractXml") as HTMLInputElement).value);
+    let getUsersUrl = this.usersUrl+"?extractJson="+extractJson+"&extractXml="+extractXml
+    console.log(getUsersUrl);
+    return this.http.get<User[]>(getUsersUrl);  }
 
   public save(user: User) {
     return this.http.post<User>(this.usersUrl, user);

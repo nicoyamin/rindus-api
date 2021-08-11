@@ -12,7 +12,11 @@ export class TodoService {
   }
 
   public findAll(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(this.todosUrl);
+        let extractJson = ((document.getElementById("extractJson") as HTMLInputElement).value);
+        let extractXml = ((document.getElementById("extractXml") as HTMLInputElement).value);
+        let getTodosUrl = this.todosUrl+"?extractJson="+extractJson+"&extractXml="+extractXml
+        console.log(getTodosUrl);
+        return this.http.get<Todo[]>(getTodosUrl);
   }
 
   public save(todo: Todo) {

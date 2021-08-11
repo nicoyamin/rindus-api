@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rindus$All_in_rindus.exec</a> &gt; <a href="index.source.html" class="el_package">com.example.rindus.service</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package com.example.rindus.service;
+
+import com.example.rindus.ApiConstants;
+import com.example.rindus.ResourceExtractor;
+import com.example.rindus.entity.User;
+import com.example.rindus.entity.User;
+import com.example.rindus.exception.ResourceFormatException;
+import com.example.rindus.model.UserRequest;
+import com.example.rindus.model.UserRequest;
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.rmi.UnexpectedException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.StringJoiner;
+
+
+@Service
+public class UserService {
+
+
+    private final WebClient webClient;
+
+<span class="fc" id="L36">    public UserService(WebClient.Builder webClientBuilder) {</span>
+<span class="fc" id="L37">        this.webClient = webClientBuilder.baseUrl(ApiConstants.BASE_URL).build();</span>
+<span class="fc" id="L38">    }</span>
+
+    public List&lt;User&gt; getUsers(boolean extractJson, boolean extractXml) throws IOException {
+
+<span class="fc" id="L42">        WebClient.ResponseSpec response = webClient.get()</span>
+<span class="fc" id="L43">                .uri(ApiConstants.Resources.USERS.resource)</span>
+<span class="fc" id="L44">                .retrieve();</span>
+
+<span class="fc" id="L46">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+<span class="fc" id="L48">        Mono&lt;List&lt;User&gt;&gt; users = response.bodyToMono(new ParameterizedTypeReference&lt;List&lt;User&gt;&gt;() {});</span>
+
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if(extractJson) {</span>
+<span class="nc" id="L51">            ResourceExtractor.extractToJson(ApiConstants.Resources.USERS.resource, users);</span>
+        }
+
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if(extractXml) {</span>
+<span class="nc" id="L55">            ResourceExtractor.extractToXml(ApiConstants.Resources.USERS.resource,</span>
+                    users,
+                    ApiConstants.Resources.USERS.tagName);
+        }
+
+<span class="fc" id="L60">        return users.block();</span>
+    }
+
+    public User postUser(UserRequest request) throws ResourceFormatException, UnexpectedException {
+<span class="fc" id="L64">        WebClient.ResponseSpec response  = webClient.post()</span>
+<span class="fc" id="L65">                .uri(ApiConstants.Resources.USERS.resource)</span>
+<span class="fc" id="L66">                .body(Mono.just(createUser(request)), User.class)</span>
+<span class="fc" id="L67">                .retrieve();</span>
+
+<span class="fc" id="L69">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+<span class="fc" id="L71">        return response.bodyToMono(User.class).block();</span>
+    }
+
+    public User putUser(UserRequest request) throws ResourceFormatException, UnexpectedException {
+
+<span class="fc" id="L76">        String userId =&quot;/&quot; + request.getId();</span>
+
+<span class="fc" id="L78">        WebClient.ResponseSpec response  = webClient.put()</span>
+<span class="fc" id="L79">                .uri(ApiConstants.Resources.USERS.resource + userId)</span>
+<span class="fc" id="L80">                .body(Mono.just(createUser(request)), User.class)</span>
+<span class="fc" id="L81">                .retrieve();</span>
+
+<span class="fc" id="L83">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+<span class="fc" id="L85">        return response.bodyToMono(User.class).block();</span>
+    }
+
+    public User patchUser(UserRequest request) throws ResourceFormatException, UnexpectedException {
+
+<span class="fc" id="L90">        String userId =&quot;/&quot; + request.getId();</span>
+
+<span class="fc" id="L92">        WebClient.ResponseSpec response  = webClient.patch()</span>
+<span class="fc" id="L93">                .uri(ApiConstants.Resources.USERS.resource + userId)</span>
+<span class="fc" id="L94">                .body(Mono.just(createUser(request)), User.class)</span>
+<span class="fc" id="L95">                .retrieve();</span>
+
+<span class="fc" id="L97">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+<span class="fc" id="L99">        return response.bodyToMono(User.class).block();</span>
+    }
+
+    public int deleteUser(int userId) throws UnexpectedException {
+
+<span class="fc" id="L104">        WebClient.ResponseSpec response = webClient.delete()</span>
+<span class="fc" id="L105">                .uri(ApiConstants.Resources.USERS.resource + &quot;/&quot; + userId)</span>
+<span class="fc" id="L106">                .accept(MediaType.APPLICATION_JSON)</span>
+<span class="fc" id="L107">                .retrieve();</span>
+
+<span class="fc" id="L109">        ApiConstants.checkForException(response.toBodilessEntity().block());</span>
+
+
+<span class="fc" id="L112">        return response.toBodilessEntity().block().getStatusCodeValue();</span>
+    }
+
+    private User createUser(UserRequest request) throws ResourceFormatException {
+
+<span class="fc" id="L117">        User newUser = new User();</span>
+
+<span class="fc" id="L119">        newUser.setId(request.getId());</span>
+<span class="fc" id="L120">        newUser.setName(request.getName());</span>
+<span class="fc" id="L121">        newUser.setUsername(request.getUsername());</span>
+<span class="fc" id="L122">        newUser.setEmail(request.getEmail());</span>
+<span class="fc" id="L123">        newUser.setAddress(request.getAddress());</span>
+<span class="fc" id="L124">        newUser.setPhone((request.getPhone()));</span>
+<span class="fc" id="L125">        newUser.setWebsite(request.getWebsite());</span>
+<span class="fc" id="L126">        newUser.setCompany((request.getCompany()));</span>
+
+<span class="fc" id="L128">        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();</span>
+
+<span class="fc" id="L130">        Set&lt;ConstraintViolation&lt;User&gt;&gt; constraintViolations = validator.validate(newUser);</span>
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (constraintViolations.size() &gt; 0) {</span>
+<span class="fc" id="L133">            StringJoiner joiner = new StringJoiner(&quot;, &quot;,&quot;User is not valid: &quot;, &quot;&quot;);</span>
+<span class="fc" id="L134">            Set&lt;String&gt; violationMessages = new HashSet&lt;String&gt;();</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            for (ConstraintViolation&lt;User&gt; constraintViolation : constraintViolations) {</span>
+<span class="fc" id="L137">                joiner.add(constraintViolation.getPropertyPath() +&quot;: &quot;+constraintViolation.getMessage());</span>
+<span class="fc" id="L138">            }</span>
+
+<span class="fc" id="L140">            throw new ResourceFormatException(joiner.toString());</span>
+        }
+
+<span class="fc" id="L143">        return newUser;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

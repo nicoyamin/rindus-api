@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.rmi.UnexpectedException;
 import java.util.List;
 
@@ -26,9 +27,8 @@ public class UserController implements UserApi{
     }
 
 
-    @SneakyThrows
     @Override
-    public ResponseEntity <List<User>> getUsers(boolean extractJson, boolean extractXml) {
+    public ResponseEntity <List<User>> getUsers(boolean extractJson, boolean extractXml) throws IOException {
         List<User> users = userService.getUsers(extractJson, extractXml);
         return ResponseEntity.ok(users);
     }
@@ -55,6 +55,6 @@ public class UserController implements UserApi{
     @Override
     public ResponseEntity deleteUser(int userId) throws UnexpectedException {
         userService.deleteUser(userId);
-        return ResponseEntity.ok("User with Id " + userId + " deleted successfully");
+        return ResponseEntity.ok(userId);
     }
 }

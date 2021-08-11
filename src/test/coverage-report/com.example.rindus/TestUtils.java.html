@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">rindus$All_in_rindus.exec</a> &gt; <a href="index.source.html" class="el_package">com.example.rindus</a> &gt; <span class="el_source">TestUtils.java</span></div><h1>TestUtils.java</h1><pre class="source lang-java linenums">package com.example.rindus;
+
+import com.example.rindus.entity.*;
+import com.example.rindus.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="nc" id="L9">public final class TestUtils {</span>
+
+    public static Album createDummyAlbum() {
+<span class="fc" id="L12">        Album album = new Album();</span>
+
+<span class="fc" id="L14">        album.setId(1);</span>
+<span class="fc" id="L15">        album.setTitle(&quot;album&quot;);</span>
+<span class="fc" id="L16">        album.setUserId(1);</span>
+
+<span class="fc" id="L18">        return album;</span>
+    }
+
+    public static AlbumRequest createDummyAlbumRequest() {
+<span class="fc" id="L22">        AlbumRequest album = new AlbumRequest();</span>
+
+<span class="fc" id="L24">        album.setId(1);</span>
+<span class="fc" id="L25">        album.setTitle(&quot;album&quot;);</span>
+<span class="fc" id="L26">        album.setUserId(1);</span>
+
+<span class="fc" id="L28">        return album;</span>
+    }
+
+    public static AlbumRequest createInvalidAlbumRequest() {
+<span class="fc" id="L32">        AlbumRequest album = new AlbumRequest();</span>
+
+<span class="fc" id="L34">        album.setId(0);</span>
+<span class="fc" id="L35">        album.setTitle(&quot;album&quot;);</span>
+<span class="fc" id="L36">        album.setUserId(1);</span>
+
+<span class="fc" id="L38">        return album;</span>
+    }
+
+    public static List&lt;Album&gt; createDummyAlbumList() {
+
+<span class="fc" id="L43">        List&lt;Album&gt; albums = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L44">        albums.add(createDummyAlbum());</span>
+<span class="fc" id="L45">        albums.add(createDummyAlbum());</span>
+<span class="fc" id="L46">        albums.add(createDummyAlbum());</span>
+<span class="fc" id="L47">        albums.add(createDummyAlbum());</span>
+
+<span class="fc" id="L49">        return albums;</span>
+    }
+
+    public static Comment createDummyComment() {
+<span class="nc" id="L53">        Comment comment = new Comment();</span>
+
+<span class="nc" id="L55">        comment.setId(1);</span>
+<span class="nc" id="L56">        comment.setBody(&quot;Body&quot;);</span>
+<span class="nc" id="L57">        comment.setEmail(&quot;nicoyamin@test.com&quot;);</span>
+<span class="nc" id="L58">        comment.setPostId(1);</span>
+<span class="nc" id="L59">        return comment;</span>
+    }
+
+    public static CommentsRequest createDummyCommentRequest() {
+<span class="fc" id="L63">        CommentsRequest comment = new CommentsRequest();</span>
+
+<span class="fc" id="L65">        comment.setId(1);</span>
+<span class="fc" id="L66">        comment.setBody(&quot;Body&quot;);</span>
+<span class="fc" id="L67">        comment.setEmail(&quot;nicoyamin@test.com&quot;);</span>
+<span class="fc" id="L68">        comment.setPostId(1);</span>
+<span class="fc" id="L69">        return comment;</span>
+    }
+
+    public static CommentsRequest createInvalidCommentRequest() {
+<span class="fc" id="L73">        CommentsRequest comment = new CommentsRequest();</span>
+
+<span class="fc" id="L75">        comment.setId(1);</span>
+<span class="fc" id="L76">        comment.setBody(&quot;Body&quot;);</span>
+<span class="fc" id="L77">        comment.setEmail(&quot;invalid email&quot;);</span>
+<span class="fc" id="L78">        comment.setPostId(1);</span>
+<span class="fc" id="L79">        return comment;</span>
+    }
+
+    public static List&lt;Comment&gt; createDummyCommentList() {
+
+<span class="nc" id="L84">        List&lt;Comment&gt; comments = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L85">        comments.add(createDummyComment());</span>
+<span class="nc" id="L86">        comments.add(createDummyComment());</span>
+<span class="nc" id="L87">        comments.add(createDummyComment());</span>
+<span class="nc" id="L88">        comments.add(createDummyComment());</span>
+
+<span class="nc" id="L90">        return comments;</span>
+    }
+
+    public static PhotoRequest createDummyPhotoRequest() {
+<span class="fc" id="L94">        PhotoRequest photo = new PhotoRequest();</span>
+
+<span class="fc" id="L96">        photo.setId(1);</span>
+<span class="fc" id="L97">        photo.setAlbumId(1);</span>
+<span class="fc" id="L98">        photo.setTitle(&quot;title&quot;);</span>
+<span class="fc" id="L99">        photo.setThumbnailUrl(&quot;https://via.placeholder.com/600/771796&quot;);</span>
+<span class="fc" id="L100">        photo.setUrl(&quot;https://via.placeholder.com/600/771796&quot;);</span>
+<span class="fc" id="L101">        return photo;</span>
+    }
+
+    public static PhotoRequest createInvalidPhotoRequest() {
+<span class="fc" id="L105">        PhotoRequest photo = new PhotoRequest();</span>
+
+<span class="fc" id="L107">        photo.setId(1);</span>
+<span class="fc" id="L108">        photo.setAlbumId(1);</span>
+<span class="fc" id="L109">        photo.setTitle(&quot;title&quot;);</span>
+<span class="fc" id="L110">        photo.setThumbnailUrl(&quot;https://via.placeholder.com/600/771796&quot;);</span>
+<span class="fc" id="L111">        photo.setUrl(&quot;Invalid Url&quot;);</span>
+<span class="fc" id="L112">        return photo;</span>
+    }
+
+    public static PostRequest createDummyPostRequest() {
+<span class="fc" id="L116">        PostRequest post = new PostRequest();</span>
+
+<span class="fc" id="L118">        post.setBody(&quot;body&quot;);</span>
+<span class="fc" id="L119">        post.setId(1);</span>
+<span class="fc" id="L120">        post.setTitle(&quot;title&quot;);</span>
+<span class="fc" id="L121">        post.setUserId(1);</span>
+
+<span class="fc" id="L123">        return post;</span>
+    }
+
+    public static PostRequest createInvalidPostRequest() {
+<span class="fc" id="L127">        PostRequest post = new PostRequest();</span>
+
+<span class="fc" id="L129">        post.setBody(&quot;body&quot;);</span>
+<span class="fc" id="L130">        post.setId(0);</span>
+<span class="fc" id="L131">        post.setTitle(&quot;title&quot;);</span>
+<span class="fc" id="L132">        post.setUserId(1);</span>
+
+<span class="fc" id="L134">        return post;</span>
+    }
+
+    public static TodoRequest createDummyTodoRequest() {
+<span class="fc" id="L138">        TodoRequest todo = new TodoRequest();</span>
+
+<span class="fc" id="L140">        todo.setId(1);</span>
+<span class="fc" id="L141">        todo.setTitle(&quot;title&quot;);</span>
+<span class="fc" id="L142">        todo.setUserId(1);</span>
+<span class="fc" id="L143">        todo.setCompleted(false);</span>
+
+<span class="fc" id="L145">        return todo;</span>
+    }
+
+    public static TodoRequest createInvalidTodoRequest() {
+<span class="fc" id="L149">        TodoRequest todo = new TodoRequest();</span>
+
+<span class="fc" id="L151">        todo.setId(0);</span>
+<span class="fc" id="L152">        todo.setTitle(&quot;title&quot;);</span>
+<span class="fc" id="L153">        todo.setUserId(1);</span>
+<span class="fc" id="L154">        todo.setCompleted(false);</span>
+
+<span class="fc" id="L156">        return todo;</span>
+    }
+
+    public static UserRequest createDummyUserRequest() {
+<span class="fc" id="L160">        UserRequest user = new UserRequest();</span>
+
+<span class="fc" id="L162">        Coordinates coord = new Coordinates();</span>
+<span class="fc" id="L163">        coord.setLat(&quot;12.12&quot;);</span>
+<span class="fc" id="L164">        coord.setLng(&quot;-12.12&quot;);</span>
+
+<span class="fc" id="L166">        Address address = new Address();</span>
+<span class="fc" id="L167">        address.setCity(&quot;city&quot;);</span>
+<span class="fc" id="L168">        address.setStreet(&quot;street&quot;);</span>
+<span class="fc" id="L169">        address.setSuite(&quot;suite&quot;);</span>
+<span class="fc" id="L170">        address.setZipcode(&quot;1234&quot;);</span>
+<span class="fc" id="L171">        address.setGeo(coord);</span>
+
+<span class="fc" id="L173">        Company company = new Company();</span>
+<span class="fc" id="L174">        company.setName(&quot;company&quot;);</span>
+<span class="fc" id="L175">        company.setCatchPhrase(&quot;Catchphrase&quot;);</span>
+<span class="fc" id="L176">        company.setBs(&quot;bs&quot;);</span>
+
+<span class="fc" id="L178">        user.setId(1);</span>
+<span class="fc" id="L179">        user.setName(&quot;name&quot;);</span>
+<span class="fc" id="L180">        user.setEmail(&quot;email@test.com&quot;);</span>
+<span class="fc" id="L181">        user.setPhone(&quot;123456&quot;);</span>
+<span class="fc" id="L182">        user.setUsername(&quot;username&quot;);</span>
+<span class="fc" id="L183">        user.setAddress(address);</span>
+<span class="fc" id="L184">        user.setCompany(company);</span>
+
+<span class="fc" id="L186">        return user;</span>
+    }
+
+    public static UserRequest createInvalidUserRequest() {
+<span class="fc" id="L190">        UserRequest user = new UserRequest();</span>
+
+<span class="fc" id="L192">        Coordinates coord = new Coordinates();</span>
+<span class="fc" id="L193">        coord.setLat(&quot;12.12&quot;);</span>
+<span class="fc" id="L194">        coord.setLng(&quot;-12.12&quot;);</span>
+
+<span class="fc" id="L196">        Address address = new Address();</span>
+<span class="fc" id="L197">        address.setCity(&quot;city&quot;);</span>
+<span class="fc" id="L198">        address.setStreet(&quot;street&quot;);</span>
+<span class="fc" id="L199">        address.setSuite(&quot;suite&quot;);</span>
+<span class="fc" id="L200">        address.setZipcode(&quot;1234&quot;);</span>
+<span class="fc" id="L201">        address.setGeo(coord);</span>
+
+<span class="fc" id="L203">        Company company = new Company();</span>
+<span class="fc" id="L204">        company.setName(&quot;company&quot;);</span>
+<span class="fc" id="L205">        company.setCatchPhrase(&quot;Catchphrase&quot;);</span>
+<span class="fc" id="L206">        company.setBs(&quot;bs&quot;);</span>
+
+<span class="fc" id="L208">        user.setId(0);</span>
+<span class="fc" id="L209">        user.setName(&quot;name&quot;);</span>
+<span class="fc" id="L210">        user.setEmail(&quot;email@test.com&quot;);</span>
+<span class="fc" id="L211">        user.setPhone(&quot;123456&quot;);</span>
+<span class="fc" id="L212">        user.setUsername(&quot;username&quot;);</span>
+<span class="fc" id="L213">        user.setAddress(address);</span>
+<span class="fc" id="L214">        user.setCompany(company);</span>
+
+<span class="fc" id="L216">        return user;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

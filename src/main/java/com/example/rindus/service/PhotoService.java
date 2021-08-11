@@ -32,7 +32,7 @@ public class PhotoService {
     private final WebClient webClient;
 
     public PhotoService(WebClient.Builder webClientBuilder) {
-        this.webClient = WebClient.builder()
+        this.webClient = webClientBuilder
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(2 * 1024 * 1024))
                 .baseUrl(ApiConstants.BASE_URL).build();
     }
@@ -59,6 +59,7 @@ public class PhotoService {
 
         return photos.block();
     }
+
 
     public Photo postPhoto(PhotoRequest request) throws ResourceFormatException, UnexpectedException {
         WebClient.ResponseSpec response  = webClient.post()
@@ -113,6 +114,7 @@ public class PhotoService {
         return response.toBodilessEntity().block().getStatusCodeValue();
 
     }
+
 
     private Photo createPhoto(PhotoRequest request) throws ResourceFormatException {
 

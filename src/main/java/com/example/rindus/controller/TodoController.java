@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.rmi.UnexpectedException;
 import java.util.List;
 
@@ -27,9 +28,8 @@ public class TodoController implements TodoApi{
     }
 
 
-    @SneakyThrows
     @Override
-    public ResponseEntity<List<Todo>> getTodos(boolean extractJson, boolean extractXml) {
+    public ResponseEntity<List<Todo>> getTodos(boolean extractJson, boolean extractXml) throws IOException {
         List<Todo> todos = todoService.getTodos(extractJson, extractXml);
         return ResponseEntity.ok(todos);
     }
@@ -56,6 +56,6 @@ public class TodoController implements TodoApi{
     @Override
     public ResponseEntity deleteTodo(int todoId) throws UnexpectedException {
         todoService.deleteTodo(todoId);
-        return ResponseEntity.ok("Todo with Id " + todoId + " deleted successfully");
+        return ResponseEntity.ok(todoId);
     }
 }

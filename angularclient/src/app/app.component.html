@@ -19,12 +19,36 @@
               </select>
             </li>
           </ul>
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item">
-              <h3 class="text-center text-white">Add query parameters: </h3>
+
+          <ul class="text-center list-inline py-3" *ngIf="showExtractor">
+            <li>
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col" class="text-center text-white">Extract JSON</th>
+                  <th scope="col" class="text-center text-white">Extract XML</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>
+                    <select id='extractJson' name='extractJson'>
+                      <option>false</option>
+                      <option>true</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select id='extractXml' name='extractXml'>
+                      <option>false</option>
+                      <option>true</option>
+                    </select>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
             </li>
             <li class="list-inline-item">
-              <a routerLink="/posts" class="btn btn-info">GO!</a>
+              <button class="btn btn-info" (click)="getResource($event)">GO!</button>
             </li>
           </ul>
         </div>

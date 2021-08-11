@@ -27,7 +27,6 @@ public class AlbumService {
 
     public AlbumService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl(ApiConstants.BASE_URL).build();
-
     }
 
     public List<Album> getAlbums(boolean extractJson, boolean extractXml) throws IOException {

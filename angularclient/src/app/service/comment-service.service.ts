@@ -13,7 +13,11 @@ export class CommentService {
   }
 
   public findAll(): Observable<Comment[]> {
-    return this.http.get<Comment[]>(this.commentsUrl);
+        let extractJson = ((document.getElementById("extractJson") as HTMLInputElement).value);
+        let extractXml = ((document.getElementById("extractXml") as HTMLInputElement).value);
+        let getCommentsUrl = this.commentsUrl+"?extractJson="+extractJson+"&extractXml="+extractXml
+        console.log(getCommentsUrl);
+        return this.http.get<Comment[]>(getCommentsUrl);
   }
 
   public save(comment: Comment) {

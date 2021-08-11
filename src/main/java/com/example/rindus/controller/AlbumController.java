@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.rmi.UnexpectedException;
 import java.util.List;
 
@@ -26,9 +27,8 @@ public class AlbumController implements AlbumApi {
         this.albumService = albumService;
     }
 
-    @SneakyThrows
     @Override
-    public ResponseEntity<List<Album>> getAlbums(boolean extractJson, boolean extractXml) {
+    public ResponseEntity<List<Album>> getAlbums(boolean extractJson, boolean extractXml) throws IOException {
         List<Album> albums = albumService.getAlbums(extractJson, extractXml);
         return ResponseEntity.ok(albums);
     }
@@ -54,5 +54,6 @@ public class AlbumController implements AlbumApi {
     @Override
     public ResponseEntity deleteAlbum(@Valid int albumId) throws UnexpectedException {
         albumService.deleteAlbum(albumId);
-        return ResponseEntity.ok("Post with Id " + albumId + " deleted successfully");    }
+        return ResponseEntity.ok(albumId);
+    }
 }
